@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.illtamer.perpetua.sdk.Pair;
 import com.illtamer.perpetua.sdk.entity.TransferEntity;
-import com.illtamer.perpetua.sdk.entity.transfer.send.*;
+import com.illtamer.perpetua.sdk.entity.transfer.segment.*;
 import com.illtamer.perpetua.sdk.event.EventResolver;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
@@ -56,10 +56,11 @@ public class MessageChain implements Iterable<TransferEntity> {
         }
     }
 
+    // 消息类型实例序列化
     protected static Pair<String, Map<String, @Nullable Object>> entityToProperty(TransferEntity entity) {
         String key = entity.getClass().getSimpleName().toLowerCase();
         Gson gson = EventResolver.GSON;
-        // special handle for num parse
+        // fixed by EventResolver#injectGson, no need to specify type token
         Map<String, @Nullable Object> value = gson.fromJson(gson.toJson(entity), new TypeToken<Map<String, Object>>(){}.getType());
         return new Pair<>(key, value);
     }

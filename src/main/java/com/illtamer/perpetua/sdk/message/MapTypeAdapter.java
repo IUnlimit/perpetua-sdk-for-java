@@ -15,7 +15,7 @@ import java.util.Map;
 /**
  * 解决反序列化 number 默认转型成 double 的问题
  * */
-public class ObjectTypeAdapter extends TypeAdapter<Object> {
+public class MapTypeAdapter extends TypeAdapter<Object> {
 
     private static final TypeAdapter<Object> delegate = new Gson().getAdapter(Object.class);
 

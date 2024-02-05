@@ -1,6 +1,7 @@
 package com.illtamer.perpetua.sdk.message;
 
 import com.google.gson.*;
+import com.google.gson.internal.LinkedTreeMap;
 import com.illtamer.perpetua.sdk.Pair;
 import com.illtamer.perpetua.sdk.entity.TransferEntity;
 import com.illtamer.perpetua.sdk.exception.ExclusiveMessageException;
@@ -65,7 +66,7 @@ public class JsonMessage extends Message {
 
     @Override
     public JsonMessage clone() {
-        return new JsonMessage(array, textOnly);
+        return new JsonMessage(array.deepCopy(), textOnly);
     }
 
     @Override
@@ -81,7 +82,7 @@ public class JsonMessage extends Message {
         final List<Map.Entry<String, Object>> notnull = data.entrySet().stream()
                 .filter(entry -> entry.getValue() != null)
                 .collect(Collectors.toList());
-        if (notnull.size() == 0) return;
+        // notnull map can be empty
         messageChain.boltOn(type, notnull);
 
         notnull.forEach(entry -> {
@@ -109,8 +110,10 @@ public class JsonMessage extends Message {
         if (!array.isEmpty()) {
             for (JsonElement jsonElement : array) {
                 JsonObject object = (JsonObject) jsonElement;
-                if (!object.get("type").getAsString().equals(type))
-                    throw new ExclusiveMessageException(type);
+                String typeStr = object.get("type").getAsString();
+                // 不检查合并消息
+                if ("node".equals(typeStr)) continue;
+                throw new ExclusiveMessageException(type);
             }
         }
         add(type, data);
@@ -128,6 +131,23 @@ public class JsonMessage extends Message {
             list.add(new Pair<>(type, data));
         }
         return list;
+    }
+
+    /**
+     * json 反序列化
+     * @apiNote 完整经历创建过程，自动校验参数
+     * */
+    public static JsonMessage deserialize(JsonArray array) {
+        JsonMessage message = new JsonMessage();
+        for (JsonElement e : array) {
+            JsonObject object = (JsonObject) e;
+            String type = object.get("type").getAsString();
+            JsonObject data = object.get("data").getAsJsonObject();
+            Map<String, Object> map = new LinkedTreeMap<>();
+            map.putAll(data.asMap());
+            message.add(type, map);
+        }
+        return message;
     }
 
 }

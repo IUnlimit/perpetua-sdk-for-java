@@ -31,8 +31,15 @@ public abstract class Message implements Cloneable {
     * */
    abstract public boolean isTextOnly();
 
+   /**
+    * 深拷贝
+    * */
    abstract public Message clone();
 
+   /**
+    * 序列化消息
+    * @apiNote 等同于 serialize
+    * */
    abstract public String toString();
 
    /**
@@ -40,9 +47,14 @@ public abstract class Message implements Cloneable {
     * */
    abstract protected void add(String type, Map<String, @Nullable Object> data);
 
+   /**
+    * 尝试删除
+    * */
    abstract protected void removeIf(Predicate<TransferEntity> predicate);
 
    /**
+    * 不可重复种类消息添加
+    * @apiNote 若添加此类消息，则当前消息节点中不可再存在其他消息
     * @throws ExclusiveMessageException 单一消息类型异常
     * */
    abstract protected void addExclusive(String type, Map<String, @Nullable Object> data);
