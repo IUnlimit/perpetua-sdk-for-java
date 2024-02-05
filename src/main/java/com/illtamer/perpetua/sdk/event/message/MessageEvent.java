@@ -2,7 +2,7 @@ package com.illtamer.perpetua.sdk.event.message;
 
 import com.google.gson.annotations.SerializedName;
 import com.illtamer.perpetua.sdk.annotation.Coordinates;
-import com.illtamer.perpetua.sdk.entity.transfer.receive.MessageSender;
+import com.illtamer.perpetua.sdk.entity.transfer.entity.MessageSender;
 import com.illtamer.perpetua.sdk.event.Cancellable;
 import com.illtamer.perpetua.sdk.event.Event;
 import com.illtamer.perpetua.sdk.handler.OpenAPIHandling;
@@ -48,7 +48,6 @@ public class MessageEvent extends Event implements Cancellable {
 
     /**
      * 一个消息链
-     * @apiNote {@link com.illtamer.perpetua.sdk.message.CQMessage}
      * */
     private Message message;
 
@@ -68,10 +67,16 @@ public class MessageEvent extends Event implements Cancellable {
      * */
     private transient MessageSender sender;
 
+    /**
+     * 回复该消息
+     * */
     public void reply(String message) {
         reply(MessageBuilder.json().text(message).build());
     }
 
+    /**
+     * 回复该消息
+     * */
     public void reply(Message message) {
         throw new UnsupportedOperationException();
     }
@@ -80,7 +85,7 @@ public class MessageEvent extends Event implements Cancellable {
      * 向该消息发送者发送消息
      * @return 消息 ID
      * */
-    public Integer sendMessage(String message) {
+    public Long sendMessage(String message) {
         return OpenAPIHandling.sendMessage(message, userId);
     }
 
@@ -88,7 +93,7 @@ public class MessageEvent extends Event implements Cancellable {
      * 向该消息发送者发送消息
      * @return 消息 ID
      * */
-    public Integer sendMessage(Message message) {
+    public Long sendMessage(Message message) {
         return OpenAPIHandling.sendMessage(message, userId);
     }
 

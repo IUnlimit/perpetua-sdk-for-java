@@ -2,11 +2,9 @@ package com.illtamer.perpetua.sdk.event.message;
 
 import com.google.gson.annotations.SerializedName;
 import com.illtamer.perpetua.sdk.annotation.Coordinates;
-import com.illtamer.perpetua.sdk.entity.transfer.receive.AnonymousEntity;
-import com.illtamer.perpetua.sdk.entity.transfer.receive.GroupMessageSender;
-import com.illtamer.perpetua.sdk.event.QuickAction;
+import com.illtamer.perpetua.sdk.entity.transfer.entity.AnonymousEntity;
+import com.illtamer.perpetua.sdk.entity.transfer.entity.GroupMessageSender;
 import com.illtamer.perpetua.sdk.handler.OpenAPIHandling;
-import com.illtamer.perpetua.sdk.handler.onebot.QuickActionHandler;
 import com.illtamer.perpetua.sdk.message.Message;
 import com.illtamer.perpetua.sdk.message.MessageBuilder;
 import lombok.Getter;
@@ -24,7 +22,7 @@ import lombok.ToString;
         secType = "group",
         subType = {"normal", "anonymous", "notice"}
 )
-public class GroupMessageEvent extends MessageEvent implements QuickAction {
+public class GroupMessageEvent extends MessageEvent {
 
     /**
      * 表示消息的子类型
@@ -60,9 +58,7 @@ public class GroupMessageEvent extends MessageEvent implements QuickAction {
 
     /**
      * 回复该条消息
-     * @deprecated #reply(String, boolean)
      * */
-    @Deprecated
     public void reply(Message message, boolean atSender) {
         final MessageBuilder builder = MessageBuilder.json().reply(getMessageId());
         if (atSender)
@@ -87,9 +83,7 @@ public class GroupMessageEvent extends MessageEvent implements QuickAction {
      * */
     @Deprecated
     public void kick() {
-        new QuickActionHandler(this)
-                .addOperation("kick", true)
-                .request();
+        OpenAPIHandling.groupKick(groupId, getUserId());
     }
 
     /**
@@ -114,7 +108,7 @@ public class GroupMessageEvent extends MessageEvent implements QuickAction {
      * 向该消息发送者发送消息
      * @return 消息 ID
      * */
-    public Integer sendGroupMessage(String message) {
+    public Long sendGroupMessage(String message) {
         return OpenAPIHandling.sendGroupMessage(message, groupId);
     }
 
@@ -122,7 +116,7 @@ public class GroupMessageEvent extends MessageEvent implements QuickAction {
      * 向该消息发送者发送消息
      * @return 消息 ID
      * */
-    public Integer sendGroupMessage(Message message) {
+    public Long sendGroupMessage(Message message) {
         return OpenAPIHandling.sendGroupMessage(message, groupId);
     }
 

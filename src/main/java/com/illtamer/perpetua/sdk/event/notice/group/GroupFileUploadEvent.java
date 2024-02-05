@@ -1,7 +1,7 @@
 package com.illtamer.perpetua.sdk.event.notice.group;
 
 import com.illtamer.perpetua.sdk.annotation.Coordinates;
-import com.illtamer.perpetua.sdk.entity.transfer.receive.File;
+import com.illtamer.perpetua.sdk.entity.transfer.entity.File;
 import com.illtamer.perpetua.sdk.event.notice.GroupNoticeEvent;
 import lombok.Getter;
 import lombok.Setter;

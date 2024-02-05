@@ -2,8 +2,7 @@ package com.illtamer.perpetua.sdk.event.message;
 
 import com.google.gson.annotations.SerializedName;
 import com.illtamer.perpetua.sdk.annotation.Coordinates;
-import com.illtamer.perpetua.sdk.entity.transfer.receive.MessageSender;
-import com.illtamer.perpetua.sdk.event.QuickAction;
+import com.illtamer.perpetua.sdk.entity.transfer.entity.MessageSender;
 import com.illtamer.perpetua.sdk.handler.OpenAPIHandling;
 import com.illtamer.perpetua.sdk.message.Message;
 import com.illtamer.perpetua.sdk.message.MessageBuilder;
@@ -22,7 +21,7 @@ import lombok.ToString;
         secType = "private",
         subType = {"friend", "group", "group_self", "other"}
 )
-public class PrivateMessageEvent extends MessageEvent implements QuickAction {
+public class PrivateMessageEvent extends MessageEvent {
 
     /**
      * 表示消息的子类型

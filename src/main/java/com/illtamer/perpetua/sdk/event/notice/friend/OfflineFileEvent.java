@@ -1,8 +1,9 @@
-package com.illtamer.perpetua.sdk.event.notice;
+package com.illtamer.perpetua.sdk.event.notice.friend;
 
 import com.google.gson.annotations.SerializedName;
 import com.illtamer.perpetua.sdk.annotation.Coordinates;
-import com.illtamer.perpetua.sdk.entity.transfer.receive.File;
+import com.illtamer.perpetua.sdk.entity.transfer.entity.File;
+import com.illtamer.perpetua.sdk.event.notice.NoticeEvent;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

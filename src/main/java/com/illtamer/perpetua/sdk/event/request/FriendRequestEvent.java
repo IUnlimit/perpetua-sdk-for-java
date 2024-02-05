@@ -2,9 +2,7 @@ package com.illtamer.perpetua.sdk.event.request;
 
 import com.google.gson.annotations.SerializedName;
 import com.illtamer.perpetua.sdk.annotation.Coordinates;
-import com.illtamer.perpetua.sdk.event.QuickAction;
 import com.illtamer.perpetua.sdk.handler.OpenAPIHandling;
-import com.illtamer.perpetua.sdk.handler.onebot.QuickActionHandler;
 import com.illtamer.perpetua.sdk.message.Message;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,7 +19,7 @@ import org.jetbrains.annotations.Nullable;
         postType = Coordinates.PostType.REQUEST,
         secType = "friend"
 )
-public class FriendRequestEvent extends RequestEvent implements QuickAction {
+public class FriendRequestEvent extends RequestEvent {
 
     /**
      * 发送请求的 QQ 号
@@ -41,21 +39,34 @@ public class FriendRequestEvent extends RequestEvent implements QuickAction {
 
     /**
      * 同意请求
+     * */
+    @Override
+    public void approve() {
+        approve(null);
+    }
+
+    /**
+     * 同意请求
      * @param remark 添加后的好友备注 (仅在同意时有效)
      * */
     public void approve(@Nullable String remark) {
-        QuickActionHandler handler = new QuickActionHandler(this)
-                .addOperation("approve", true);
-        if (remark != null)
-            handler.addOperation("remark", remark);
-        handler.request();
+        OpenAPIHandling.handleFriendRequest(flag, true, remark);
+    }
+
+    /**
+     * 拒绝请求
+     * @param reason 拒绝理由
+     * */
+    @Override
+    public void reject(@Nullable String reason) {
+        OpenAPIHandling.handleFriendRequest(flag, false, reason);
     }
 
     /**
      * 向该消息发送者发送消息
      * @return 消息 ID
      * */
-    public Integer sendMessage(String message) {
+    public Long sendMessage(String message) {
         return OpenAPIHandling.sendMessage(message, userId);
     }
 
@@ -63,7 +74,7 @@ public class FriendRequestEvent extends RequestEvent implements QuickAction {
      * 向该消息发送者发送消息
      * @return 消息 ID
      * */
-    public Integer sendMessage(Message message) {
+    public Long sendMessage(Message message) {
         return OpenAPIHandling.sendMessage(message, userId);
     }
 
