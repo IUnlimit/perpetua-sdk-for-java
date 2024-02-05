@@ -2,14 +2,11 @@ package com.illtamer.perpetua.sdk.handler;
 
 import com.illtamer.perpetua.sdk.Response;
 import com.illtamer.perpetua.sdk.entity.TransferEntity;
-import com.illtamer.perpetua.sdk.entity.transfer.receive.*;
-import com.illtamer.perpetua.sdk.entity.transfer.send.Text;
+import com.illtamer.perpetua.sdk.entity.transfer.entity.*;
+import com.illtamer.perpetua.sdk.entity.transfer.segment.Text;
 import com.illtamer.perpetua.sdk.exception.APIInvokeException;
 import com.illtamer.perpetua.sdk.handler.onebot.account.GetLoginInfoHandler;
-import com.illtamer.perpetua.sdk.handler.onebot.friend.DeleteFriendHandler;
-import com.illtamer.perpetua.sdk.handler.onebot.friend.GetFriendListHandler;
-import com.illtamer.perpetua.sdk.handler.onebot.friend.GetStrangerHandler;
-import com.illtamer.perpetua.sdk.handler.onebot.friend.SendLikeHandler;
+import com.illtamer.perpetua.sdk.handler.onebot.friend.*;
 import com.illtamer.perpetua.sdk.handler.onebot.group.*;
 import com.illtamer.perpetua.sdk.handler.onebot.image.GetImageHandler;
 import com.illtamer.perpetua.sdk.handler.onebot.impl.GetStatusHandler;
@@ -48,6 +45,29 @@ public class OpenAPIHandling {
     public static void deleteFriend(long friendId) {
         new DeleteFriendHandler()
                 .setFriendId(friendId)
+                .request();
+    }
+
+    /**
+     * 处理好友申请
+     * @param flag 加好友请求的 flag（需从上报的数据中获得）
+     * @param approve 是否同意请求
+     * */
+    public static void handleFriendRequest(String flag, boolean approve) {
+        handleFriendRequest(flag, approve, null);
+    }
+
+    /**
+     * 处理好友申请
+     * @param flag 加好友请求的 flag（需从上报的数据中获得）
+     * @param approve 是否同意请求
+     * @param remark 添加后的好友备注（仅在同意时有效）
+     * */
+    public static void handleFriendRequest(String flag, boolean approve, String remark) {
+        new FriendAddRequestHandler()
+                .setFlag(flag)
+                .setApprove(approve)
+                .setRemark(remark)
                 .request();
     }
 
@@ -95,6 +115,40 @@ public class OpenAPIHandling {
     // group
 
     /**
+     * 处理加群请求／邀请
+     * @param flag 加群请求的 flag（需从上报的数据中获得）
+     * @param subType add 或 invite，请求类型（需要和上报消息中的 sub_type 字段相符）
+     * @param approve 是否同意请求
+     * */
+    public static void handleGroupRequest(String flag, String subType, boolean approve) {
+        handleGroupRequest(flag, subType, approve, null);
+    }
+
+    /**
+     * 处理加群请求／邀请
+     * @param flag 加群请求的 flag（需从上报的数据中获得）
+     * @param subType add 或 invite，请求类型（需要和上报消息中的 sub_type 字段相符）
+     * @param approve 是否同意请求
+     * @param reason 拒绝理由（仅在拒绝时有效）
+     * */
+    public static void handleGroupRequest(String flag, String subType, boolean approve, String reason) {
+        new GroupAddRequestHandler()
+                .setFlag(flag)
+                .setSubType(subType)
+                .setApprove(approve)
+                .setReason(reason);
+    }
+
+    /**
+     * 设置群管理员
+     * @param groupId 群号
+     * @param userId 操作对象的账号
+     * */
+    public static void setGroupAdmin(long groupId, long userId) {
+        setGroupAdmin(groupId, userId, true);
+    }
+
+    /**
      * 设置群管理员
      * @param groupId 群号
      * @param userId 操作对象的账号
@@ -106,6 +160,15 @@ public class OpenAPIHandling {
                 .setUserId(userId)
                 .setEnable(enable)
                 .request();
+    }
+
+    /**
+     * 群组单人禁言
+     * @param groupId 群号
+     * @param userId 要禁言的 QQ 号
+     * */
+    public static void groupBan(long groupId, long userId) {
+        groupBan(groupId, userId, 30 * 60);
     }
 
     /**
@@ -140,6 +203,15 @@ public class OpenAPIHandling {
      * 群组踢人
      * @param groupId 群号
      * @param userId 被踢的 QQ 号
+     * */
+    public static void groupKick(long groupId, long userId) {
+        groupKick(groupId, userId, false);
+    }
+
+    /**
+     * 群组踢人
+     * @param groupId 群号
+     * @param userId 被踢的 QQ 号
      * @param rejectAddRequest 是否拒绝此人的加群请求
      * */
     public static void groupKick(long groupId, long userId, boolean rejectAddRequest) {
@@ -148,6 +220,14 @@ public class OpenAPIHandling {
                 .setUserId(userId)
                 .setRejectAddRequest(rejectAddRequest)
                 .request();
+    }
+
+    /**
+     * 退出群组
+     * @param groupId 群号
+     * */
+    public static void groupLeave(long groupId) {
+        groupLeave(groupId, false);
     }
 
     /**
