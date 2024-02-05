@@ -1,8 +1,10 @@
-package com.illtamer.perpetua.sdk.config;
+package com.illtamer.perpetua.sdk.websocket;
 
-import com.illtamer.perpetua.sdk.entity.transfer.receive.LoginInfo;
+import com.illtamer.perpetua.sdk.entity.transfer.entity.LoginInfo;
 import com.illtamer.perpetua.sdk.event.Event;
 import com.illtamer.perpetua.sdk.handler.OpenAPIHandling;
+import com.illtamer.perpetua.sdk.handler.enhance.GetWSPortHandler;
+import com.illtamer.perpetua.sdk.util.Assert;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;
@@ -28,30 +30,64 @@ import org.jetbrains.annotations.Nullable;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 /**
- * go-cqhttp WebSocket 连接初始化类
+ * onebot WebSocket 连接初始化类
  * */
 @Log
-public class CQHttpWebSocketConfiguration {
+public class OneBotConnection {
 
+    /**
+     * 拓展 WebAPI 请求地址
+     * */
     @Setter
     @Getter
-    private static String httpUri;
+    private static String enhanceWebAPIUrl;
+
+    /**
+     * 验证 TOKEN
+     * */
     @Setter
     @Getter
     private static String authorization;
+
+    /**
+     * 登录信息
+     * */
     @Getter
     private static LoginInfo loginInfo;
+
+    /**
+     * WebSocket 连接状态
+     * */
     @Getter
     private static boolean running = false;
-    @Getter
-    private static Channel channel;
 
-    public static void start(@NotNull String httpUri, @NotNull String wsUri, @Nullable String authorization, Consumer<Event> eventConsumer) throws InterruptedException {
-        CQHttpWebSocketConfiguration.httpUri = httpUri;
-        CQHttpWebSocketConfiguration.authorization = authorization;
-        EventHandler eventHandler = new EventHandler(eventConsumer);
+    protected static Channel channel;
+
+    /**
+     * 启动 ws 连接
+     * @param ip perpetua 所在 ip
+     * @param apiPort webapi 开放端口
+     * @param authorization 验证 token，可为空
+     * @param eventConsumer 事件消费者
+     * */
+    public static void start(@NotNull String ip, @NotNull Integer apiPort, @Nullable String authorization, Consumer<Event> eventConsumer) throws InterruptedException {
+        Assert.notNull(ip, "ip can not be null");
+        Assert.notNull(apiPort, "wsUri can not be null");
+
+        OneBotConnection.enhanceWebAPIUrl = String.format("http://%s:%d", ip, apiPort);
+        OneBotConnection.authorization = authorization;
+
+        Integer wsPort = (Integer) new GetWSPortHandler().request().getData().get("port");
+        String wsUri = String.format("ws://%s:%d", ip, wsPort);
+
+        connect(wsUri, eventConsumer, OpenAPIHandling::getLoginInfo);
+    }
+
+    private static void connect(String wsUri, Consumer<Event> eventConsumer, Supplier<LoginInfo> checkAPI) throws InterruptedException {
+        EventChannelHandler eventHandler = new EventChannelHandler(eventConsumer);
         EventLoopGroup group = new NioEventLoopGroup();
         try {
             Bootstrap bootstrap = new Bootstrap()
@@ -87,9 +123,9 @@ public class CQHttpWebSocketConfiguration {
             handshake.handshake(channel);
             // 阻塞等待是否握手成功
             eventHandler.getHandshakeFuture().sync();
-            loginInfo = OpenAPIHandling.getLoginInfo();
+            loginInfo = checkAPI.get();
             running = true;
-            log.info("go-cqhttp websocket 握手成功");
+            log.info("onebot websocket 握手成功");
             channel.closeFuture().sync();
             running = false;
         } catch (URISyntaxException e) {

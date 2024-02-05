@@ -1,4 +1,4 @@
-package com.illtamer.perpetua.sdk.config;
+package com.illtamer.perpetua.sdk.websocket;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -19,7 +19,7 @@ import java.util.function.Consumer;
 import java.util.logging.Level;
 
 @Log
-class EventHandler extends SimpleChannelInboundHandler<Object> {
+class EventChannelHandler extends SimpleChannelInboundHandler<Object> {
 
     private final Consumer<Event> eventConsumer;
 
@@ -29,7 +29,7 @@ class EventHandler extends SimpleChannelInboundHandler<Object> {
     @Getter
     private ChannelPromise handshakeFuture;
 
-    public EventHandler(Consumer<Event> eventConsumer) {
+    public EventChannelHandler(Consumer<Event> eventConsumer) {
         this.eventConsumer = eventConsumer;
     }
 
@@ -46,8 +46,14 @@ class EventHandler extends SimpleChannelInboundHandler<Object> {
             this.handshake.finishHandshake(ctx.channel(), response);
             this.handshakeFuture.setSuccess();
         } else if (msg instanceof TextWebSocketFrame) {
-            Event event = EventResolver.dispatchEvent(new Gson()
-                    .fromJson(((TextWebSocketFrame) msg).text(), JsonObject.class));
+            // TODO 线程池
+            JsonObject json = new Gson().fromJson(((TextWebSocketFrame) msg).text(), JsonObject.class);
+            if (json.get("echo") != null) {
+                OneBotAPIInvoker.callback(json);
+                return;
+            }
+
+            Event event = EventResolver.convertEvent(json);
             try {
                 eventConsumer.accept(event);
             } catch (Exception e) {

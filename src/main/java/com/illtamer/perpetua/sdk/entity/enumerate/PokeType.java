@@ -6,7 +6,7 @@ import java.util.Arrays;
 
 /**
  * 戳一戳种类
- * @see com.illtamer.perpetua.sdk.entity.transfer.send.Poke
+ * @see com.illtamer.perpetua.sdk.entity.transfer.segment.Poke
  */
 public enum PokeType {
 
