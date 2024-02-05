@@ -1,8 +1,9 @@
-package com.illtamer.perpetua.sdk.handler;
+package com.illtamer.perpetua.sdk.handler.onebot.message;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.annotations.SerializedName;
+import com.illtamer.perpetua.sdk.handler.onebot.AbstractAPIHandler;
 import com.illtamer.perpetua.sdk.message.Message;
 import lombok.Getter;
 
@@ -20,7 +21,7 @@ public class GroupMsgSendHandler extends AbstractAPIHandler<Map<String, Object>>
     private boolean autoEscape;
 
     public GroupMsgSendHandler() {
-        super("/send_group_msg");
+        super("send_group_msg");
     }
 
     public GroupMsgSendHandler setGroupId(Long groupId) {

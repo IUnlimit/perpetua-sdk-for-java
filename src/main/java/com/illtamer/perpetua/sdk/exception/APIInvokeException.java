@@ -7,14 +7,11 @@ import com.illtamer.perpetua.sdk.Response;
  * */
 public class APIInvokeException extends RuntimeException {
 
-    public APIInvokeException() {
+    public APIInvokeException(Response<?> response) {
+        super(String.format("API 不支持或调用异常(retcode: %d): %s", response.getRetcode(), response.getMsg()));
     }
 
-    public APIInvokeException(Response response) {
-        super(response.getMsg());
-    }
-
-    public APIInvokeException(Response response, Throwable cause) {
+    public APIInvokeException(Response<?> response, Throwable cause) {
         super(response.getMsg(), cause);
     }
 

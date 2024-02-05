@@ -1,9 +1,10 @@
-package com.illtamer.perpetua.sdk.handler;
+package com.illtamer.perpetua.sdk.handler.onebot.group;
 
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 import com.illtamer.perpetua.sdk.Response;
 import com.illtamer.perpetua.sdk.entity.transfer.receive.GroupMember;
+import com.illtamer.perpetua.sdk.handler.onebot.AbstractAPIHandler;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
@@ -30,7 +31,7 @@ public class GroupMemberGetHandler extends AbstractAPIHandler<Map<String, Object
     private Boolean noCache;
 
     public GroupMemberGetHandler() {
-        super("/get_group_member_info");
+        super("get_group_member_info");
     }
 
     public GroupMemberGetHandler setGroupId(Long groupId) {

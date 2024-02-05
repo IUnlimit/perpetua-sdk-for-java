@@ -1,4 +1,4 @@
-package com.illtamer.perpetua.sdk.handler;
+package com.illtamer.perpetua.sdk.handler.onebot;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -29,11 +29,12 @@ public class QuickActionHandler extends AbstractAPIHandler<Map<String, Object>> 
      * <p>
      * 例如 {"ban": true, "reply": "请不要说脏话"}
      * */
-    private final JsonObject operation = new JsonObject();
+    private final JsonObject operation;
 
     public QuickActionHandler(Event context) {
-        super("/.handle_quick_operation");
+        super(".handle_quick_operation");
         this.context = context;
+        this.operation = new JsonObject();
     }
 
     public QuickActionHandler addOperation(String key, String value) {

@@ -1,9 +1,10 @@
-package com.illtamer.perpetua.sdk.handler;
+package com.illtamer.perpetua.sdk.handler.onebot.friend;
 
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 import com.illtamer.perpetua.sdk.Response;
 import com.illtamer.perpetua.sdk.entity.transfer.receive.Stranger;
+import com.illtamer.perpetua.sdk.handler.onebot.AbstractAPIHandler;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
@@ -13,7 +14,8 @@ import java.util.Map;
  * 获取陌生人信息
  * */
 @Getter
-public class StrangerGetHandler extends AbstractAPIHandler<Map<String, Object>> {
+@Deprecated
+public class GetStrangerHandler extends AbstractAPIHandler<Map<String, Object>> {
 
     /**
      * QQ 号
@@ -27,16 +29,16 @@ public class StrangerGetHandler extends AbstractAPIHandler<Map<String, Object>> 
     @SerializedName("no_cache")
     private Boolean noCache;
 
-    public StrangerGetHandler() {
-        super("/get_stranger_info");
+    public GetStrangerHandler() {
+        super("get_stranger_info");
     }
 
-    public StrangerGetHandler setUserId(Long userId) {
+    public GetStrangerHandler setUserId(Long userId) {
         this.userId = userId;
         return this;
     }
 
-    public StrangerGetHandler setNoCache(Boolean noCache) {
+    public GetStrangerHandler setNoCache(Boolean noCache) {
         this.noCache = noCache;
         return this;
     }

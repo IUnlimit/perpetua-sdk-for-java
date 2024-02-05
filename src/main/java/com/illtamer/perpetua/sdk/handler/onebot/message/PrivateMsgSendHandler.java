@@ -1,8 +1,9 @@
-package com.illtamer.perpetua.sdk.handler;
+package com.illtamer.perpetua.sdk.handler.onebot.message;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.annotations.SerializedName;
+import com.illtamer.perpetua.sdk.handler.onebot.AbstractAPIHandler;
 import com.illtamer.perpetua.sdk.message.Message;
 import lombok.Getter;
 
@@ -26,7 +27,7 @@ public class PrivateMsgSendHandler extends AbstractAPIHandler<Map<String, Object
     private boolean autoEscape;
 
     public PrivateMsgSendHandler() {
-        super("/send_private_msg");
+        super("send_private_msg");
     }
 
     public PrivateMsgSendHandler setUserId(Long userId) {

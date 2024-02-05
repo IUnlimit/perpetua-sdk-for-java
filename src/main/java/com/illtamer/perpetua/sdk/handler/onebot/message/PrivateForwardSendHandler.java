@@ -1,8 +1,9 @@
-package com.illtamer.perpetua.sdk.handler;
+package com.illtamer.perpetua.sdk.handler.onebot.message;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.annotations.SerializedName;
+import com.illtamer.perpetua.sdk.handler.onebot.AbstractAPIHandler;
 import com.illtamer.perpetua.sdk.message.Message;
 import lombok.Getter;
 
@@ -12,6 +13,7 @@ import java.util.Map;
  * 合并转发消息 APIHandler
  * */
 @Getter
+@Deprecated
 public class PrivateForwardSendHandler extends AbstractAPIHandler<Map<String, Object>> {
 
     @SerializedName("user_id")
@@ -20,7 +22,7 @@ public class PrivateForwardSendHandler extends AbstractAPIHandler<Map<String, Ob
     private JsonArray messages;
 
     public PrivateForwardSendHandler() {
-        super("/send_private_forward_msg");
+        super("send_private_forward_msg");
     }
 
     public PrivateForwardSendHandler setUserId(Long userId) {

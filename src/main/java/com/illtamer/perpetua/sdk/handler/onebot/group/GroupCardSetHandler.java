@@ -1,12 +1,11 @@
-package com.illtamer.perpetua.sdk.handler;
+package com.illtamer.perpetua.sdk.handler.onebot.group;
 
 import com.google.gson.annotations.SerializedName;
+import com.illtamer.perpetua.sdk.handler.onebot.AbstractAPIHandler;
 import lombok.Getter;
 
-import java.util.Map;
-
 @Getter
-public class GroupSetCardHandler extends AbstractAPIHandler<Map<String, Object>> {
+public class GroupCardSetHandler extends AbstractAPIHandler<Object> {
 
     /**
      * 群号
@@ -25,21 +24,21 @@ public class GroupSetCardHandler extends AbstractAPIHandler<Map<String, Object>>
      * */
     private String card;
 
-    public GroupSetCardHandler() {
-        super("/set_group_card");
+    public GroupCardSetHandler() {
+        super("set_group_card");
     }
 
-    public GroupSetCardHandler setGroupId(Long groupId) {
+    public GroupCardSetHandler setGroupId(Long groupId) {
         this.groupId = groupId;
         return this;
     }
 
-    public GroupSetCardHandler setUserId(Long userId) {
+    public GroupCardSetHandler setUserId(Long userId) {
         this.userId = userId;
         return this;
     }
 
-    public GroupSetCardHandler setCard(String card) {
+    public GroupCardSetHandler setCard(String card) {
         this.card = card;
         return this;
     }

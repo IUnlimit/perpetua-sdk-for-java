@@ -1,15 +1,14 @@
-package com.illtamer.perpetua.sdk.handler;
+package com.illtamer.perpetua.sdk.handler.onebot.group;
 
 import com.google.gson.annotations.SerializedName;
+import com.illtamer.perpetua.sdk.handler.onebot.AbstractAPIHandler;
 import lombok.Getter;
-
-import java.util.Map;
 
 /**
  * 群组单人禁言 APIHandler
  * */
 @Getter
-public class GroupBanAPIHandler extends AbstractAPIHandler<Map<String, Object>> {
+public class GroupBanAPIHandler extends AbstractAPIHandler<Object> {
 
     /**
      * 群号
@@ -32,7 +31,7 @@ public class GroupBanAPIHandler extends AbstractAPIHandler<Map<String, Object>> 
     private Integer duration;
 
     public GroupBanAPIHandler() {
-        super("/set_group_ban");
+        super("set_group_ban");
     }
 
     public GroupBanAPIHandler setGroupId(Long groupId) {

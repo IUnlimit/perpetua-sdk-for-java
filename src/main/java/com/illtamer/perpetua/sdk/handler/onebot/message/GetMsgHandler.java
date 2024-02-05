@@ -1,29 +1,30 @@
-package com.illtamer.perpetua.sdk.handler;
+package com.illtamer.perpetua.sdk.handler.onebot.message;
 
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 import com.illtamer.perpetua.sdk.Response;
 import com.illtamer.perpetua.sdk.entity.transfer.receive.MessageEntity;
 import com.illtamer.perpetua.sdk.event.EventResolver;
+import com.illtamer.perpetua.sdk.handler.onebot.AbstractAPIHandler;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 
 /**
- * 获取消息 APIHandler
+ * 获取消息
  * */
 @Getter
-public class GetMessageHandler extends AbstractAPIHandler<Map<String, Object>> {
+public class GetMsgHandler extends AbstractAPIHandler<Map<String, Object>> {
 
     @SerializedName("message_id")
-    private Integer messageId;
+    private Long messageId;
 
-    public GetMessageHandler() {
-        super("/get_msg");
+    public GetMsgHandler() {
+        super("get_msg");
     }
 
-    public GetMessageHandler setMessageId(Integer messageId) {
+    public GetMsgHandler setMessageId(Long messageId) {
         this.messageId = messageId;
         return this;
     }
