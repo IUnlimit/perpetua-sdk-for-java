@@ -4,12 +4,14 @@ import com.google.gson.Gson;
 import com.illtamer.perpetua.sdk.Pair;
 import com.illtamer.perpetua.sdk.handler.APIHandler;
 import lombok.SneakyThrows;
+import lombok.experimental.UtilityClass;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
@@ -20,7 +22,22 @@ import org.jetbrains.annotations.Nullable;
 import java.io.IOException;
 import java.util.Map;
 
+@UtilityClass
 public class HttpRequestUtil {
+
+    /**
+     * 根据有无 payload 自动选择 post / get
+     * */
+    public static String request(String url, Object payload, @Nullable Map<String, String> headers) {
+        final String payloadJson = parsePayload(payload);
+        if (payloadJson.length() <= 2) {
+            Pair<Integer, String> resp = getJson(url, null);
+            Assert.isTrue(resp.getKey() == HttpStatus.SC_OK, "Unexpected status: " + resp.getKey());
+            return resp.getValue();
+        } else {
+            return postJson(url, payload, headers);
+        }
+    }
 
     @NotNull
     @SneakyThrows(IOException.class)
@@ -37,7 +54,7 @@ public class HttpRequestUtil {
                         .filter(entry -> entry.getValue() != null)
                         .forEach(entry -> httpPost.setHeader(entry.getKey(), entry.getValue()));
             httpPost.setHeader("Content-Type", "application/json");
-            StringEntity entity = new StringEntity(payloadJson, "application/json", "UTF-8");
+            StringEntity entity = new StringEntity(payloadJson, ContentType.APPLICATION_JSON);
             httpPost.setEntity(entity);
             try (CloseableHttpResponse response = httpClient.execute(httpPost)) {
                 if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
@@ -82,7 +99,7 @@ public class HttpRequestUtil {
             content = new Gson().toJson(payload);
         } catch (Exception e) {
             System.err.printf("Some exception occurred when parse payload with endpoint: %s, %s",
-                    ((APIHandler<?>) payload).getEndpoint(), e);
+                    ((APIHandler<?>) payload).getAction(), e);
         }
         return content;
     }

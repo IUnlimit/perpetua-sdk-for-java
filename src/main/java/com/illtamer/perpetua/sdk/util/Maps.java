@@ -1,9 +1,12 @@
 package com.illtamer.perpetua.sdk.util;
 
+import lombok.experimental.UtilityClass;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+@UtilityClass
 public class Maps {
 
     public static <K, V> Map<K, V> of(K k, V v) {
