@@ -6,7 +6,7 @@ import com.illtamer.perpetua.sdk.entity.transfer.receive.AnonymousEntity;
 import com.illtamer.perpetua.sdk.entity.transfer.receive.GroupMessageSender;
 import com.illtamer.perpetua.sdk.event.QuickAction;
 import com.illtamer.perpetua.sdk.handler.OpenAPIHandling;
-import com.illtamer.perpetua.sdk.handler.QuickActionHandler;
+import com.illtamer.perpetua.sdk.handler.onebot.QuickActionHandler;
 import com.illtamer.perpetua.sdk.message.Message;
 import com.illtamer.perpetua.sdk.message.MessageBuilder;
 import lombok.Getter;

@@ -30,7 +30,7 @@ public class MessageEvent extends Event implements Cancellable {
      * 消息 ID
      * */
     @SerializedName("message_id")
-    private Integer messageId;
+    private Long messageId;
 
     /**
      * 消息类型

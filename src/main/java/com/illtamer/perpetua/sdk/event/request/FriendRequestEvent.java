@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 import com.illtamer.perpetua.sdk.annotation.Coordinates;
 import com.illtamer.perpetua.sdk.event.QuickAction;
 import com.illtamer.perpetua.sdk.handler.OpenAPIHandling;
-import com.illtamer.perpetua.sdk.handler.QuickActionHandler;
+import com.illtamer.perpetua.sdk.handler.onebot.QuickActionHandler;
 import com.illtamer.perpetua.sdk.message.Message;
 import lombok.Getter;
 import lombok.Setter;
