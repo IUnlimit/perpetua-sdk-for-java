@@ -1,7 +1,6 @@
 package com.illtamer.perpetua.sdk.entity.transfer.send;
 
 import com.illtamer.perpetua.sdk.entity.TransferEntity;
-import com.illtamer.perpetua.sdk.entity.enumerate.FaceType;
 import com.illtamer.perpetua.sdk.entity.enumerate.PokeType;
 import lombok.Data;
 

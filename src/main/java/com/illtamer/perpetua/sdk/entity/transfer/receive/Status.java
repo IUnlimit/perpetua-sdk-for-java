@@ -1,18 +1,21 @@
 package com.illtamer.perpetua.sdk.entity.transfer.receive;
 
 import com.google.gson.annotations.SerializedName;
+import com.illtamer.perpetua.sdk.handler.onebot.impl.GetStatusHandler;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * 机器人状态实体类
- * @see com.illtamer.perpetua.sdk.handler.StatusGetHandler
+ * 通常情况下建议只使用 online 和 good 这两个字段来判断运行状态，因为根据 OneBot 实现的不同，其它字段可能完全不同。
+ * @see GetStatusHandler
  * */
 @Getter
 @Setter
 @ToString
-public class BotStatus {
+public class Status {
 
     /**
      * 原 CQHTTP 字段, 恒定为 true
@@ -35,17 +38,19 @@ public class BotStatus {
     /**
      * 原 CQHTTP 字段, 恒定为 true
      * */
-    @SerializedName("app_goods")
+    @SerializedName("app_good")
     private Boolean appGood;
 
     /**
      * 表示BOT是否在线
      * */
+    @NotNull
     private Boolean online;
 
     /**
      * 同 online
      * */
+    @NotNull
     private Boolean good;
 
     /**

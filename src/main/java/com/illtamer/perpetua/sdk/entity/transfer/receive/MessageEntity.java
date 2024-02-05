@@ -1,6 +1,7 @@
 package com.illtamer.perpetua.sdk.entity.transfer.receive;
 
 import com.google.gson.annotations.SerializedName;
+import com.illtamer.perpetua.sdk.message.Message;
 import lombok.Data;
 
 @Data
@@ -11,10 +12,10 @@ public class MessageEntity {
     @SerializedName("group_id")
     private Long groupId;
 
-    private com.illtamer.perpetua.sdk.message.Message message;
+    private Message message;
 
     @SerializedName("message_id")
-    private Integer messageId;
+    private Long messageId;
 
     @SerializedName("message_id_v2")
     private String messageIdV2;
@@ -26,7 +27,7 @@ public class MessageEntity {
     private String messageType;
 
     @SerializedName("real_id")
-    private Double realId;
+    private Long realId;
 
     private MessageSender sender;
 
