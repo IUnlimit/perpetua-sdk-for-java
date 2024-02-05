@@ -3,7 +3,7 @@ package com.illtamer.perpetua.sdk.handler.onebot.message;
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 import com.illtamer.perpetua.sdk.Response;
-import com.illtamer.perpetua.sdk.entity.transfer.receive.MessageEntity;
+import com.illtamer.perpetua.sdk.entity.transfer.entity.MessageEntity;
 import com.illtamer.perpetua.sdk.event.EventResolver;
 import com.illtamer.perpetua.sdk.handler.onebot.AbstractAPIHandler;
 import lombok.Getter;

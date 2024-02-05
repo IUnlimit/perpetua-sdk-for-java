@@ -2,7 +2,7 @@ package com.illtamer.perpetua.sdk.handler.onebot.impl;
 
 import com.google.gson.Gson;
 import com.illtamer.perpetua.sdk.Response;
-import com.illtamer.perpetua.sdk.entity.transfer.receive.Status;
+import com.illtamer.perpetua.sdk.entity.transfer.entity.Status;
 import com.illtamer.perpetua.sdk.handler.onebot.AbstractAPIHandler;
 import org.jetbrains.annotations.NotNull;
 

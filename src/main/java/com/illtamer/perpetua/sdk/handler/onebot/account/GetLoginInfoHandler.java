@@ -1,7 +1,7 @@
 package com.illtamer.perpetua.sdk.handler.onebot.account;
 
 import com.google.gson.Gson;
-import com.illtamer.perpetua.sdk.entity.transfer.receive.LoginInfo;
+import com.illtamer.perpetua.sdk.entity.transfer.entity.LoginInfo;
 import com.illtamer.perpetua.sdk.handler.onebot.AbstractAPIHandler;
 
 import java.util.Map;

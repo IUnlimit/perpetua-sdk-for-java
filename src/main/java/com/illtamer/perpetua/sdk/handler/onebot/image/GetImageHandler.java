@@ -2,7 +2,7 @@ package com.illtamer.perpetua.sdk.handler.onebot.image;
 
 import com.google.gson.Gson;
 import com.illtamer.perpetua.sdk.Response;
-import com.illtamer.perpetua.sdk.entity.transfer.receive.ImageEntity;
+import com.illtamer.perpetua.sdk.entity.transfer.entity.ImageEntity;
 import com.illtamer.perpetua.sdk.handler.onebot.AbstractAPIHandler;
 import lombok.Getter;
 
