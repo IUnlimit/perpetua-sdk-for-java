@@ -1,13 +1,14 @@
 package com.illtamer.perpetua.sdk.event.notice;
 
 import com.illtamer.perpetua.sdk.annotation.Coordinates;
-import com.illtamer.perpetua.sdk.entity.transfer.entity.Device;
+import com.illtamer.perpetua.sdk.entity.transfer.entity.Client;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 /**
- * 其他客户端在线状态变更事件
+ * 客户端在线状态变更
+ * @apiNote Perpetua 实现
  * */
 @Setter
 @Getter
@@ -16,13 +17,12 @@ import lombok.ToString;
         postType = Coordinates.PostType.NOTICE,
         secType = "client_status"
 )
-@Deprecated
 public class ClientStatusChangeEvent extends NoticeEvent {
 
     /**
      * 客户端信息
      * */
-    private Device client;
+    private Client client;
 
     /**
      * 当前是否在线

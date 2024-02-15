@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.illtamer.perpetua.sdk.Response;
 import com.illtamer.perpetua.sdk.entity.transfer.entity.Group;
-import com.illtamer.perpetua.sdk.handler.onebot.AbstractAPIHandler;
+import com.illtamer.perpetua.sdk.handler.AbstractWSAPIHandler;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -16,7 +16,7 @@ import java.util.Map;
 /**
  * 获取群列表
  * */
-public class GroupListGetHandler extends AbstractAPIHandler<List<Map<String, Object>>> {
+public class GroupListGetHandler extends AbstractWSAPIHandler<List<Map<String, Object>>> {
 
     @Getter
     @Nullable

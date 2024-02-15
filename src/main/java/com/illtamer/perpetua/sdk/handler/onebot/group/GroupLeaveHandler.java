@@ -1,14 +1,14 @@
 package com.illtamer.perpetua.sdk.handler.onebot.group;
 
 import com.google.gson.annotations.SerializedName;
-import com.illtamer.perpetua.sdk.handler.onebot.AbstractAPIHandler;
+import com.illtamer.perpetua.sdk.handler.AbstractWSAPIHandler;
 import lombok.Getter;
 
 /**
  * 退出群组
  * */
 @Getter
-public class GroupLeaveHandler extends AbstractAPIHandler<Object> {
+public class GroupLeaveHandler extends AbstractWSAPIHandler<Object> {
 
     @SerializedName("group_id")
     private Long groupId;

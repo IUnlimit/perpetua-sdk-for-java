@@ -1,7 +1,7 @@
 package com.illtamer.perpetua.sdk.handler.onebot.friend;
 
 import com.google.gson.annotations.SerializedName;
-import com.illtamer.perpetua.sdk.handler.onebot.AbstractAPIHandler;
+import com.illtamer.perpetua.sdk.handler.AbstractWSAPIHandler;
 import lombok.Getter;
 
 import java.util.Map;
@@ -11,7 +11,7 @@ import java.util.Map;
  * */
 @Getter
 @Deprecated
-public class DeleteFriendHandler extends AbstractAPIHandler<Map<String, Object>> {
+public class DeleteFriendHandler extends AbstractWSAPIHandler<Map<String, Object>> {
 
     /**
      * 好友 QQ 号

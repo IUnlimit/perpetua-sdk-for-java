@@ -2,18 +2,18 @@ package com.illtamer.perpetua.sdk;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.illtamer.perpetua.sdk.entity.transfer.entity.Client;
 import com.illtamer.perpetua.sdk.event.Event;
 import com.illtamer.perpetua.sdk.event.EventResolver;
+import com.illtamer.perpetua.sdk.event.distributed.ClientBroadcastEvent;
+import com.illtamer.perpetua.sdk.event.distributed.DistributedEvent;
 import com.illtamer.perpetua.sdk.event.message.MessageEvent;
 import com.illtamer.perpetua.sdk.event.meta.HeartbeatEvent;
 import com.illtamer.perpetua.sdk.handler.OpenAPIHandling;
-import com.illtamer.perpetua.sdk.handler.enhance.GetWSPortHandler;
-import com.illtamer.perpetua.sdk.message.Message;
-import com.illtamer.perpetua.sdk.message.MessageBuilder;
+import com.illtamer.perpetua.sdk.handler.enhance.GetOnlineClientsHandler;
 import com.illtamer.perpetua.sdk.websocket.OneBotConnection;
 
 import java.util.Map;
-import java.util.Scanner;
 
 public class TestMain {
 
@@ -23,8 +23,8 @@ public class TestMain {
 
     private static void testEnhanceAPI() {
         OneBotConnection.setEnhanceWebAPIUrl(String.format("http://%s:%d", "localhost", 8080));
-        Response<Map<String, Object>> response = new GetWSPortHandler().request();
-        System.out.println((Integer) response.getData().get("port"));
+        Response<Map<String, Object>> response = new GetOnlineClientsHandler().request();
+        System.out.println(GetOnlineClientsHandler.parse(response));
     }
 
     private static void testParse() {
@@ -38,7 +38,7 @@ public class TestMain {
         long groupId = 863522624L;
         long userId = 765743073L;
         new Thread(() -> {
-            while (true) {
+//            while (true) {
                 try {
                     Thread.sleep(3000);
                 } catch (InterruptedException e) {
@@ -46,17 +46,17 @@ public class TestMain {
                 }
 //                Response<?> response = new TestHandler("send_like")
 //                        .request();
-                System.out.println(OpenAPIHandling.getGroups());
-            }
+//            Client client = new Client();
+//                client.setClientName("client0");
+//            System.out.println(OpenAPIHandling.sendBroadcastData("==安师大上的=d", client));
+            OpenAPIHandling.setClientName("client0");
+//            }
             //            OneBotConnection.getChannel().writeAndFlush(new TextWebSocketFrame("{\"action\":\"send_private_msg\",\"params\":{\"user_id\":765743073,\"message\":\"你好\"}}"));
         }).start();
         OneBotConnection.start("127.0.0.1", 8080, null, event -> {
             if (event instanceof HeartbeatEvent) return;
-            if (event instanceof MessageEvent) {
-                System.out.println(event);
-                System.out.println(((MessageEvent) event).getMessage().getMessageChain());
-
-
+            if (event instanceof ClientBroadcastEvent) {
+                ((ClientBroadcastEvent) event).callback("回调！");
             }
         });
     }

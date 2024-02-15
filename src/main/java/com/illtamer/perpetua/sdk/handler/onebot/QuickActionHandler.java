@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.illtamer.perpetua.sdk.event.Event;
+import com.illtamer.perpetua.sdk.handler.AbstractWSAPIHandler;
 import com.illtamer.perpetua.sdk.message.Message;
 import lombok.Getter;
 
@@ -14,7 +15,7 @@ import java.util.Map;
  * */
 @Getter
 @Deprecated
-public class QuickActionHandler extends AbstractAPIHandler<Map<String, Object>> {
+public class QuickActionHandler extends AbstractWSAPIHandler<Map<String, Object>> {
 
     /**
      * 事件数据对象

@@ -2,11 +2,11 @@ package com.illtamer.perpetua.sdk.handler.onebot.account;
 
 import com.google.gson.Gson;
 import com.illtamer.perpetua.sdk.entity.transfer.entity.LoginInfo;
-import com.illtamer.perpetua.sdk.handler.onebot.AbstractAPIHandler;
+import com.illtamer.perpetua.sdk.handler.AbstractWSAPIHandler;
 
 import java.util.Map;
 
-public class GetLoginInfoHandler extends AbstractAPIHandler<Map<String, Object>> {
+public class GetLoginInfoHandler extends AbstractWSAPIHandler<Map<String, Object>> {
 
     public GetLoginInfoHandler() {
         super("get_login_info");

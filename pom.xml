@@ -7,6 +7,8 @@
     <groupId>com.illtamer.perpetua.sdk</groupId>
     <artifactId>perpetua-sdk</artifactId>
     <version>0.1.0</version>
+    <packaging>jar</packaging>
+    <name>perpetua-sdk-for-java</name>
     <description>A perpetua communication sdk for java</description>
 
     <url>https://github.com/IUnlimit/perpetua-sdk-for-java</url>

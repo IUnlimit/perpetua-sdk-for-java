@@ -1,14 +1,14 @@
 package com.illtamer.perpetua.sdk.handler.onebot.group;
 
 import com.google.gson.annotations.SerializedName;
-import com.illtamer.perpetua.sdk.handler.onebot.AbstractAPIHandler;
+import com.illtamer.perpetua.sdk.handler.AbstractWSAPIHandler;
 import lombok.Getter;
 
 /**
  * 群组单人禁言 APIHandler
  * */
 @Getter
-public class GroupBanAPIHandler extends AbstractAPIHandler<Object> {
+public class GroupBanAPIHandler extends AbstractWSAPIHandler<Object> {
 
     /**
      * 群号

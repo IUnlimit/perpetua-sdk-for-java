@@ -5,12 +5,17 @@ import com.illtamer.perpetua.sdk.entity.TransferEntity;
 import com.illtamer.perpetua.sdk.entity.transfer.entity.*;
 import com.illtamer.perpetua.sdk.entity.transfer.segment.Text;
 import com.illtamer.perpetua.sdk.exception.APIInvokeException;
+import com.illtamer.perpetua.sdk.handler.enhance.GetOnlineClientsHandler;
+import com.illtamer.perpetua.sdk.handler.enhance.SendBroadcastDataCallbackHandler;
+import com.illtamer.perpetua.sdk.handler.enhance.SendBroadcastDataHandler;
+import com.illtamer.perpetua.sdk.handler.enhance.SetClientNameHandler;
 import com.illtamer.perpetua.sdk.handler.onebot.account.GetLoginInfoHandler;
 import com.illtamer.perpetua.sdk.handler.onebot.friend.*;
 import com.illtamer.perpetua.sdk.handler.onebot.group.*;
 import com.illtamer.perpetua.sdk.handler.onebot.image.GetImageHandler;
 import com.illtamer.perpetua.sdk.handler.onebot.impl.GetStatusHandler;
 import com.illtamer.perpetua.sdk.handler.onebot.impl.GetVersionHandler;
+import com.illtamer.perpetua.sdk.handler.onebot.impl.SetRestartHandler;
 import com.illtamer.perpetua.sdk.handler.onebot.message.*;
 import com.illtamer.perpetua.sdk.message.Message;
 import com.illtamer.perpetua.sdk.message.MessageBuilder;
@@ -23,7 +28,66 @@ import java.util.Map;
  * 开放 OneBot API 调用
  * @apiNote 所有方法均有可能抛出 {@link APIInvokeException}
  * */
+@SuppressWarnings("unused")
 public class OpenAPIHandling {
+
+    // enhance
+
+    /**
+     * 获取在线的其他客户端信息
+     * */
+    public static List<Client> getClientList() {
+        return GetOnlineClientsHandler.parse(
+                new GetOnlineClientsHandler().request());
+    }
+
+    /**
+     * 设置当前客户端名称
+     * */
+    public static void setClientName(String name) {
+        new SetClientNameHandler()
+                .setName(name)
+                .request();
+    }
+
+    /**
+     * 发送客户端广播数据
+     * @param data 指定的客户端
+     * @param client 需要广播的数据
+     * @return 此次客户端广播事件的唯一id
+     * */
+    public static String sendBroadcastData(String data, Client client) {
+        Response<Map<String, Object>> response = new SendBroadcastDataHandler()
+                .addClient(client)
+                .setData(data)
+                .request();
+        return (String) response.getData().get("uuid");
+    }
+
+    /**
+     * 发送客户端广播数据
+     * @param data 指定的客户端列表
+     * @param clients 需要广播的数据
+     * @return 此次客户端广播事件的唯一id
+     * */
+    public static String sendBroadcastData(String data, List<Client> clients) {
+        Response<Map<String, Object>> response = new SendBroadcastDataHandler()
+                .addClients(clients)
+                .setData(data)
+                .request();
+        return (String) response.getData().get("uuid");
+    }
+
+    /**
+     * 发送客户端广播数据回调
+     * */
+    public static void sendBroadcastDataCallback(String data, String uuid, Client client) {
+        new SendBroadcastDataCallbackHandler()
+                .setClient(client)
+                .setUuid(uuid)
+                .setData(data)
+                .request();
+    }
 
     // account
 
@@ -336,6 +400,23 @@ public class OpenAPIHandling {
     public static VersionInfo getVersionInfo() {
         return GetVersionHandler.parse(
                 new GetVersionHandler().request());
+    }
+
+    /**
+     * 重启 OneBot 实现
+     * */
+    public static void restart() {
+        restart(0);
+    }
+
+    /**
+     * 重启 OneBot 实现
+     * @param delay 延迟的毫秒数
+     * */
+    public static void restart(int delay) {
+        new SetRestartHandler()
+                .setDelay(delay)
+                .request();
     }
 
     // message

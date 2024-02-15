@@ -1,14 +1,14 @@
 package com.illtamer.perpetua.sdk.handler.onebot.group;
 
 import com.google.gson.annotations.SerializedName;
-import com.illtamer.perpetua.sdk.handler.onebot.AbstractAPIHandler;
+import com.illtamer.perpetua.sdk.handler.AbstractWSAPIHandler;
 import lombok.Getter;
 
 /**
  * 设置群管理员
  * */
 @Getter
-public class GroupAdminSetHandler extends AbstractAPIHandler<Object> {
+public class GroupAdminSetHandler extends AbstractWSAPIHandler<Object> {
 
     @SerializedName("group_id")
     private Long groupId;

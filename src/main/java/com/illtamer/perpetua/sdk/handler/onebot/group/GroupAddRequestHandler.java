@@ -1,14 +1,14 @@
 package com.illtamer.perpetua.sdk.handler.onebot.group;
 
 import com.google.gson.annotations.SerializedName;
-import com.illtamer.perpetua.sdk.handler.onebot.AbstractAPIHandler;
+import com.illtamer.perpetua.sdk.handler.AbstractWSAPIHandler;
 import lombok.Getter;
 
 /**
  * 处理加群请求／邀请
  * */
 @Getter
-public class GroupAddRequestHandler extends AbstractAPIHandler<Object> {
+public class GroupAddRequestHandler extends AbstractWSAPIHandler<Object> {
 
     /**
      * 加群请求的 flag（需从上报的数据中获得）

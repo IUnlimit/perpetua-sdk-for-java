@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 import com.illtamer.perpetua.sdk.Response;
 import com.illtamer.perpetua.sdk.entity.transfer.entity.Stranger;
-import com.illtamer.perpetua.sdk.handler.onebot.AbstractAPIHandler;
+import com.illtamer.perpetua.sdk.handler.AbstractWSAPIHandler;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
@@ -15,7 +15,7 @@ import java.util.Map;
  * */
 @Getter
 @Deprecated
-public class GetStrangerHandler extends AbstractAPIHandler<Map<String, Object>> {
+public class GetStrangerHandler extends AbstractWSAPIHandler<Map<String, Object>> {
 
     /**
      * QQ 号

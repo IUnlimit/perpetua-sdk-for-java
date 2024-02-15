@@ -3,7 +3,7 @@ package com.illtamer.perpetua.sdk.handler.onebot.impl;
 import com.google.gson.Gson;
 import com.illtamer.perpetua.sdk.Response;
 import com.illtamer.perpetua.sdk.entity.transfer.entity.Status;
-import com.illtamer.perpetua.sdk.handler.onebot.AbstractAPIHandler;
+import com.illtamer.perpetua.sdk.handler.AbstractWSAPIHandler;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
@@ -12,7 +12,7 @@ import java.util.Map;
  * 机器人状态查看
  * */
 @Deprecated
-public class GetStatusHandler extends AbstractAPIHandler<Map<String, Object>> {
+public class GetStatusHandler extends AbstractWSAPIHandler<Map<String, Object>> {
 
     public GetStatusHandler() {
         super("get_status");

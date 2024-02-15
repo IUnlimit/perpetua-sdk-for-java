@@ -1,6 +1,8 @@
 # perpetua-sdk-for-java
 
-perpetua的通信sdk，java实现
+> 注意：您使用的 sdk 版本与 Perpetua 版本号应当一一对应
+
+Perpetua 的通信 sdk，java 实现
 
 ## 导入
 
@@ -49,9 +51,7 @@ perpetua的通信sdk，java实现
     }
 ```
 
-### 调用 OneBot API
-
-> 注意：目前
+### 调用 API
 
 - 同步
 

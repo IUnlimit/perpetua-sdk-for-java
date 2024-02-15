@@ -1,14 +1,14 @@
 package com.illtamer.perpetua.sdk.handler.onebot.friend;
 
 import com.google.gson.annotations.SerializedName;
-import com.illtamer.perpetua.sdk.handler.onebot.AbstractAPIHandler;
+import com.illtamer.perpetua.sdk.handler.AbstractWSAPIHandler;
 import lombok.Getter;
 
 /**
  * 发送好友赞
  * */
 @Getter
-public class SendLikeHandler extends AbstractAPIHandler<Object> {
+public class SendLikeHandler extends AbstractWSAPIHandler<Object> {
 
     /**
      * 对方账号

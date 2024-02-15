@@ -7,7 +7,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import com.illtamer.perpetua.sdk.Response;
 import com.illtamer.perpetua.sdk.event.EventResolver;
-import com.illtamer.perpetua.sdk.handler.onebot.AbstractAPIHandler;
+import com.illtamer.perpetua.sdk.handler.AbstractWSAPIHandler;
 import com.illtamer.perpetua.sdk.util.Assert;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 
@@ -27,7 +27,7 @@ public class OneBotAPIInvoker {
             .build();
 
     @SuppressWarnings("unchecked")
-    public static <T> Supplier<Response<T>> postHandler(AbstractAPIHandler<T> handler) {
+    public static <T> Supplier<Response<T>> postHandler(AbstractWSAPIHandler<T> handler) {
         Assert.notNull(OneBotConnection.channel, "WebSocket 连接未开启");
 
         Gson gson = EventResolver.GSON;

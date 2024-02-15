@@ -1,11 +1,11 @@
 package com.illtamer.perpetua.sdk.handler.onebot.group;
 
 import com.google.gson.annotations.SerializedName;
-import com.illtamer.perpetua.sdk.handler.onebot.AbstractAPIHandler;
+import com.illtamer.perpetua.sdk.handler.AbstractWSAPIHandler;
 import lombok.Getter;
 
 @Getter
-public class GroupCardSetHandler extends AbstractAPIHandler<Object> {
+public class GroupCardSetHandler extends AbstractWSAPIHandler<Object> {
 
     /**
      * 群号

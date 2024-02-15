@@ -1,17 +1,16 @@
-package com.illtamer.perpetua.sdk.handler.onebot;
+package com.illtamer.perpetua.sdk.handler;
 
 import com.illtamer.perpetua.sdk.Response;
 import com.illtamer.perpetua.sdk.exception.APIInvokeException;
-import com.illtamer.perpetua.sdk.handler.APIHandler;
 import com.illtamer.perpetua.sdk.websocket.OneBotAPIInvoker;
 
 import java.util.function.Supplier;
 
-public abstract class AbstractAPIHandler<T> implements APIHandler<T> {
+public abstract class AbstractWSAPIHandler<T> implements APIHandler<T> {
 
     private transient final String action;
 
-    public AbstractAPIHandler(String action) {
+    public AbstractWSAPIHandler(String action) {
         this.action = action;
     }
 

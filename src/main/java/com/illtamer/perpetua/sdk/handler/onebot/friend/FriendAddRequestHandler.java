@@ -1,13 +1,13 @@
 package com.illtamer.perpetua.sdk.handler.onebot.friend;
 
-import com.illtamer.perpetua.sdk.handler.onebot.AbstractAPIHandler;
+import com.illtamer.perpetua.sdk.handler.AbstractWSAPIHandler;
 import lombok.Getter;
 
 /**
  * 处理加好友请求
  * */
 @Getter
-public class FriendAddRequestHandler extends AbstractAPIHandler<Object> {
+public class FriendAddRequestHandler extends AbstractWSAPIHandler<Object> {
 
     /**
      * 加好友请求的 flag（需从上报的数据中获得）

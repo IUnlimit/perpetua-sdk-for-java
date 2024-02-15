@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import com.illtamer.perpetua.sdk.Response;
 import com.illtamer.perpetua.sdk.entity.transfer.entity.MessageEntity;
 import com.illtamer.perpetua.sdk.event.EventResolver;
-import com.illtamer.perpetua.sdk.handler.onebot.AbstractAPIHandler;
+import com.illtamer.perpetua.sdk.handler.AbstractWSAPIHandler;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
@@ -15,7 +15,7 @@ import java.util.Map;
  * 获取消息
  * */
 @Getter
-public class GetMsgHandler extends AbstractAPIHandler<Map<String, Object>> {
+public class GetMsgHandler extends AbstractWSAPIHandler<Map<String, Object>> {
 
     @SerializedName("message_id")
     private Long messageId;

@@ -1,7 +1,7 @@
 package com.illtamer.perpetua.sdk.handler.onebot.record;
 
 import com.google.gson.annotations.SerializedName;
-import com.illtamer.perpetua.sdk.handler.onebot.AbstractAPIHandler;
+import com.illtamer.perpetua.sdk.handler.AbstractWSAPIHandler;
 import lombok.Getter;
 
 import java.util.Map;
@@ -11,7 +11,7 @@ import java.util.Map;
  * */
 @Getter
 @Deprecated
-public class GetRecordHandler extends AbstractAPIHandler<Map<String, Object>> {
+public class GetRecordHandler extends AbstractWSAPIHandler<Map<String, Object>> {
 
     /**
      * 收到的语音文件名（消息段的 file 参数）

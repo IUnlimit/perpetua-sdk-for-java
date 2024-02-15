@@ -1,15 +1,14 @@
 package com.illtamer.perpetua.sdk.handler.onebot.impl;
 
-import com.illtamer.perpetua.sdk.handler.onebot.AbstractAPIHandler;
+import com.illtamer.perpetua.sdk.handler.AbstractWSAPIHandler;
 import lombok.Getter;
 
 /**
  * 重启 OneBot 实现
- * @apiNote TODO 此实现将由 Perpetua 提供
+ * @apiNote Perpetua 实现
  * */
 @Getter
-@Deprecated
-public class RestartHandler extends AbstractAPIHandler<Object> {
+public class SetRestartHandler extends AbstractWSAPIHandler<Object> {
 
     /**
      * 要延迟的毫秒数
@@ -18,11 +17,11 @@ public class RestartHandler extends AbstractAPIHandler<Object> {
      * */
     private Integer delay;
 
-    public RestartHandler() {
+    public SetRestartHandler() {
         super("set_restart");
     }
 
-    public RestartHandler setDelay(Integer delay) {
+    public SetRestartHandler setDelay(Integer delay) {
         this.delay = delay;
         return this;
     }

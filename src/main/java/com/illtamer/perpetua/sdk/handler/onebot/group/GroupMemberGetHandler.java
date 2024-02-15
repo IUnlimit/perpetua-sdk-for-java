@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 import com.illtamer.perpetua.sdk.Response;
 import com.illtamer.perpetua.sdk.entity.transfer.entity.GroupMember;
-import com.illtamer.perpetua.sdk.handler.onebot.AbstractAPIHandler;
+import com.illtamer.perpetua.sdk.handler.AbstractWSAPIHandler;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
@@ -14,7 +14,7 @@ import java.util.Map;
  * 获取群成员信息
  * */
 @Getter
-public class GroupMemberGetHandler extends AbstractAPIHandler<Map<String, Object>> {
+public class GroupMemberGetHandler extends AbstractWSAPIHandler<Map<String, Object>> {
 
     @SerializedName("group_id")
     private Long groupId;

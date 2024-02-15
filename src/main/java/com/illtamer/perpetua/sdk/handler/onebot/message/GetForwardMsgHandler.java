@@ -1,7 +1,7 @@
 package com.illtamer.perpetua.sdk.handler.onebot.message;
 
 import com.google.gson.annotations.SerializedName;
-import com.illtamer.perpetua.sdk.handler.onebot.AbstractAPIHandler;
+import com.illtamer.perpetua.sdk.handler.AbstractWSAPIHandler;
 import lombok.Getter;
 
 import java.util.Map;
@@ -11,7 +11,7 @@ import java.util.Map;
  * */
 @Getter
 @Deprecated
-public class GetForwardMsgHandler extends AbstractAPIHandler<Map<String, Object>> {
+public class GetForwardMsgHandler extends AbstractWSAPIHandler<Map<String, Object>> {
 
     @SerializedName("message_id")
     private Long messageId;

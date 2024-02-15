@@ -3,14 +3,14 @@ package com.illtamer.perpetua.sdk.handler.onebot.message;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.annotations.SerializedName;
-import com.illtamer.perpetua.sdk.handler.onebot.AbstractAPIHandler;
+import com.illtamer.perpetua.sdk.handler.AbstractWSAPIHandler;
 import com.illtamer.perpetua.sdk.message.Message;
 import lombok.Getter;
 
 import java.util.Map;
 
 @Getter
-public class PrivateMsgSendHandler extends AbstractAPIHandler<Map<String, Object>> {
+public class PrivateMsgSendHandler extends AbstractWSAPIHandler<Map<String, Object>> {
 
     /**
      * 对方 QQ 号

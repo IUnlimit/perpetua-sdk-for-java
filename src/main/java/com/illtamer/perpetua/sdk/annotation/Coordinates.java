@@ -69,7 +69,12 @@ public @interface Coordinates {
         /**
          * 元事件
          * */
-        META_EVENT("meta_event");
+        META_EVENT("meta_event"),
+
+        /**
+         * 分布式
+         * */
+        DISTRIBUTED("distributed");
 
         private final String value;
 
@@ -86,6 +91,8 @@ public @interface Coordinates {
                 return NOTICE;
             else if (META_EVENT.value.equals(name))
                 return META_EVENT;
+            else if (DISTRIBUTED.value.equals(name))
+                return DISTRIBUTED;
             throw new TypeParseException("Unknown type: " + name);
         }
 
