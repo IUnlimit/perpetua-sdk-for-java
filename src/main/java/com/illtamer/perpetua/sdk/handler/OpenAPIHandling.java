@@ -455,7 +455,7 @@ public class OpenAPIHandling {
      * @return 消息 ID
      * */
     public static Long sendMessage(Message message, long userId) {
-        return sendMessage(message, userId, 0);
+        return sendMessage(message, userId, Integer.MAX_VALUE);
     }
 
     /**
@@ -463,10 +463,9 @@ public class OpenAPIHandling {
      * @param limit 最大字符数限制
      * @return 消息 ID
      * */
-    @Deprecated
     public static Long sendMessage(Message message, long userId, int limit) {
         Message limited;
-        if ((limited = buildLimitMessage(message, limit)) != null) return sendPrivateForwardMessage(limited, userId);
+//        if ((limited = buildLimitMessage(message, limit)) != null) return sendPrivateForwardMessage(limited, userId);
         Response<Map<String, Object>> response = new PrivateMsgSendHandler()
                 .setUserId(userId)
                 .setMessage(message)
@@ -489,7 +488,7 @@ public class OpenAPIHandling {
      * @return 消息 ID
      * */
     public static Long sendTempMessage(Message message, long userId, long groupId) {
-        return sendTempMessage(message, userId, groupId, 0);
+        return sendTempMessage(message, userId, groupId, Integer.MAX_VALUE);
     }
 
     /**
@@ -498,10 +497,9 @@ public class OpenAPIHandling {
      * @param limit 最大字符数限制
      * @return 消息 ID
      * */
-    @Deprecated
     public static Long sendTempMessage(Message message, long userId, long groupId, int limit) {
         Message limited;
-        if ((limited = buildLimitMessage(message, limit)) != null) return sendPrivateForwardMessage(limited, userId);
+//        if ((limited = buildLimitMessage(message, limit)) != null) return sendPrivateForwardMessage(limited, userId);
         Response<Map<String, Object>> response = new PrivateMsgSendHandler()
                 .setUserId(userId)
                 .setGroupId(groupId)
@@ -523,17 +521,16 @@ public class OpenAPIHandling {
      * @return 消息 ID
      * */
     public static Long sendGroupMessage(Message message, long groupId) {
-        return sendGroupMessage(message, groupId, 0);
+        return sendGroupMessage(message, groupId, Integer.MAX_VALUE);
     }
 
     /**
      * 发送群消息
      * @return 消息 ID
      * */
-    @Deprecated
     public static Long sendGroupMessage(Message message, long groupId, int limit) {
         Message limited;
-        if ((limited = buildLimitMessage(message, limit)) != null) return sendGroupForwardMessage(limited, groupId);
+//        if ((limited = buildLimitMessage(message, limit)) != null) return sendGroupForwardMessage(limited, groupId);
         Response<Map<String, Object>> response = new GroupMsgSendHandler()
                 .setGroupId(groupId)
                 .setMessage(message)
@@ -613,6 +610,8 @@ public class OpenAPIHandling {
         return mergeNodes.build();
     }
 
+    // Wrong segmentation algorithm
+    @Deprecated
     private static void recursionSplitText(String text, MessageBuilder parent, LoginInfo info, int limit) {
         if (text.length() == 0) return;
         if (text.length() <= limit) {
