@@ -15,4 +15,8 @@ public class APIInvokeException extends RuntimeException {
         super(response.getMsg(), cause);
     }
 
+    public APIInvokeException(Throwable cause) {
+        super(cause);
+    }
+
 }

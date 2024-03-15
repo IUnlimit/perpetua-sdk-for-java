@@ -17,9 +17,9 @@ import io.netty.handler.codec.http.DefaultHttpHeaders;
 import io.netty.handler.codec.http.HttpClientCodec;
 import io.netty.handler.codec.http.HttpHeaders;
 import io.netty.handler.codec.http.HttpObjectAggregator;
-import io.netty.handler.codec.http.websocketx.WebSocketClientHandshaker;
 import io.netty.handler.codec.http.websocketx.WebSocketClientHandshakerFactory;
 import io.netty.handler.codec.http.websocketx.WebSocketVersion;
+import io.netty.handler.codec.http.websocketx.extensions.compression.WebSocketClientCompressionHandler;
 import io.netty.handler.stream.ChunkedWriteHandler;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,6 +29,8 @@ import org.jetbrains.annotations.Nullable;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -37,6 +39,13 @@ import java.util.function.Supplier;
  * */
 @Log
 public class OneBotConnection {
+
+    // 事件回调线程池，尽量多个，IO 密集型
+    @Setter
+    protected static ExecutorService callbackThreadPool = Executors.newFixedThreadPool(10);
+    // 事件监听线程池，一个 ws 连接对应至少一个
+    @Setter
+    protected static ExecutorService eventThreadPool = Executors.newFixedThreadPool(2);
 
     /**
      * 拓展 WebAPI 请求地址
@@ -83,11 +92,23 @@ public class OneBotConnection {
         Integer wsPort = (Integer) new GetWSPortHandler().request().getData().get("port");
         String wsUri = String.format("ws://%s:%d", ip, wsPort);
 
-        connect(wsUri, eventConsumer, OpenAPIHandling::getLoginInfo);
+        try {
+            connect(wsUri, eventConsumer, OpenAPIHandling::getLoginInfo);
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
     }
 
-    private static void connect(String wsUri, Consumer<Event> eventConsumer, Supplier<LoginInfo> checkAPI) throws InterruptedException {
-        EventChannelHandler eventHandler = new EventChannelHandler(eventConsumer);
+    private static void connect(String wsUri, Consumer<Event> eventConsumer, Supplier<LoginInfo> checkAPI) throws URISyntaxException, InterruptedException {
+        URI uri = new URI(wsUri);
+        HttpHeaders httpHeaders = new DefaultHttpHeaders().set("Content-Type", "application/json");
+        if (authorization != null && !authorization.isEmpty()) {
+            httpHeaders.set("Authorization", authorization);
+        }
+        EventChannelHandler eventHandler = new EventChannelHandler(
+                eventThreadPool,
+                WebSocketClientHandshakerFactory.newHandshaker(uri, WebSocketVersion.V13, null, true, httpHeaders),
+                eventConsumer);
         EventLoopGroup group = new NioEventLoopGroup();
         try {
             Bootstrap bootstrap = new Bootstrap()
@@ -104,32 +125,21 @@ public class OneBotConnection {
                                     .addLast(new ChunkedWriteHandler())
                                     // 添加一个聚合器，这个聚合器主要是将HttpMessage聚合成FullHttpRequest/Response
                                     .addLast(new HttpObjectAggregator(1024 * 64))
+                                    .addLast(WebSocketClientCompressionHandler.INSTANCE)
                                     .addLast(eventHandler);
                         }
                     });
-
-            URI websocketURI = new URI(wsUri);
-            HttpHeaders httpHeaders = new DefaultHttpHeaders()
-                    .set("Content-Type", "application/json");
-            if (authorization != null && authorization.length() != 0)
-                httpHeaders.set("Authorization", authorization);
-            // 进行握手
-            WebSocketClientHandshaker handshake = WebSocketClientHandshakerFactory.newHandshaker(websocketURI, WebSocketVersion.V13, null, true, httpHeaders);
             channel = bootstrap
-                    .connect(websocketURI.getHost(), websocketURI.getPort())
+                    .connect(uri.getHost(), uri.getPort())
                     .sync()
                     .channel();
-            eventHandler.setHandshake(handshake);
-            handshake.handshake(channel);
             // 阻塞等待是否握手成功
             eventHandler.getHandshakeFuture().sync();
             loginInfo = checkAPI.get();
             running = true;
-            log.info("onebot websocket 握手成功");
+            log.info("Onebot websocket 握手成功");
             channel.closeFuture().sync();
             running = false;
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
         } finally {
             group.shutdownGracefully();
         }

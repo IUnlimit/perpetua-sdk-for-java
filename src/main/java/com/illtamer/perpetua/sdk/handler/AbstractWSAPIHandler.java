@@ -4,6 +4,7 @@ import com.illtamer.perpetua.sdk.Response;
 import com.illtamer.perpetua.sdk.exception.APIInvokeException;
 import com.illtamer.perpetua.sdk.websocket.OneBotAPIInvoker;
 
+import java.util.concurrent.*;
 import java.util.function.Supplier;
 
 public abstract class AbstractWSAPIHandler<T> implements APIHandler<T> {
@@ -21,19 +22,24 @@ public abstract class AbstractWSAPIHandler<T> implements APIHandler<T> {
 
     @Override
     public Response<T> request() {
-        Supplier<Response<T>> supplier = OneBotAPIInvoker.postHandler(this);
-        Response<T> response = supplier.get();
-        if ("failed".equals(response.getStatus()))
-            throw new APIInvokeException(response);
-        return response;
+        CompletableFuture<Response<T>> future = OneBotAPIInvoker.postHandlerFuture(this);
+        try {
+            // todo timeout
+            Response<T> response = future.get();
+            if ("failed".equals(response.getStatus()))
+                throw new APIInvokeException(response);
+            return response;
+        } catch (ExecutionException | InterruptedException e) {
+            throw new APIInvokeException(e);
+        }
     }
 
     /**
      * 异步获取请求结果
      * @apiNote 需使用者自行校验返回数据状态
      * */
-    public Supplier<Response<T>> requestAsync() {
-        return OneBotAPIInvoker.postHandler(this);
+    public CompletableFuture<Response<T>> requestAsync() {
+        return OneBotAPIInvoker.postHandlerFuture(this);
     }
 
 }

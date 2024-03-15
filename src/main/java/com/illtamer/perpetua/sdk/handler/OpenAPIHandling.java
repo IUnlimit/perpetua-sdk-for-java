@@ -426,7 +426,7 @@ public class OpenAPIHandling {
      * @param messageId 消息 ID
      * @throws APIInvokeException 当机器人权限不足（管理员撤回群主消息）时，会抛出 RECALL_API_ERROR
      * */
-    public static void deleteMessage(long messageId) {
+    public static void deleteMessage(int messageId) {
         new DeleteMsgHandler()
                 .setMessageId(messageId)
                 .request();
@@ -436,7 +436,7 @@ public class OpenAPIHandling {
      * 获取消息
      * @param messageId 消息 ID
      * */
-    public static MessageEntity getMessage(long messageId) {
+    public static MessageEntity getMessage(int messageId) {
         return GetMsgHandler.parse(new GetMsgHandler()
                 .setMessageId(messageId)
                 .request());
@@ -446,7 +446,7 @@ public class OpenAPIHandling {
      * 发送私人消息
      * @return 消息 ID
      * */
-    public static Long sendMessage(String message, long userId) {
+    public static Integer sendMessage(String message, long userId) {
         return sendMessage(MessageBuilder.json().text(message).build(), userId);
     }
 
@@ -454,7 +454,7 @@ public class OpenAPIHandling {
      * 发送私人消息
      * @return 消息 ID
      * */
-    public static Long sendMessage(Message message, long userId) {
+    public static Integer sendMessage(Message message, long userId) {
         return sendMessage(message, userId, Integer.MAX_VALUE);
     }
 
@@ -463,14 +463,14 @@ public class OpenAPIHandling {
      * @param limit 最大字符数限制
      * @return 消息 ID
      * */
-    public static Long sendMessage(Message message, long userId, int limit) {
+    public static Integer sendMessage(Message message, long userId, int limit) {
         Message limited;
 //        if ((limited = buildLimitMessage(message, limit)) != null) return sendPrivateForwardMessage(limited, userId);
         Response<Map<String, Object>> response = new PrivateMsgSendHandler()
                 .setUserId(userId)
                 .setMessage(message)
                 .request();
-        return (Long) response.getData().get("message_id");
+        return (Integer) response.getData().get("message_id");
     }
 
     /**
@@ -478,7 +478,7 @@ public class OpenAPIHandling {
      * @param groupId 消息来源群组
      * @return 消息 ID
      * */
-    public static Long sendTempMessage(String message, long userId, long groupId) {
+    public static Integer sendTempMessage(String message, long userId, long groupId) {
         return sendTempMessage(MessageBuilder.json().text(message).build(), userId, groupId);
     }
 
@@ -487,7 +487,7 @@ public class OpenAPIHandling {
      * @param groupId 消息来源群组
      * @return 消息 ID
      * */
-    public static Long sendTempMessage(Message message, long userId, long groupId) {
+    public static Integer sendTempMessage(Message message, long userId, long groupId) {
         return sendTempMessage(message, userId, groupId, Integer.MAX_VALUE);
     }
 
@@ -497,7 +497,7 @@ public class OpenAPIHandling {
      * @param limit 最大字符数限制
      * @return 消息 ID
      * */
-    public static Long sendTempMessage(Message message, long userId, long groupId, int limit) {
+    public static Integer sendTempMessage(Message message, long userId, long groupId, int limit) {
         Message limited;
 //        if ((limited = buildLimitMessage(message, limit)) != null) return sendPrivateForwardMessage(limited, userId);
         Response<Map<String, Object>> response = new PrivateMsgSendHandler()
@@ -505,14 +505,14 @@ public class OpenAPIHandling {
                 .setGroupId(groupId)
                 .setMessage(message)
                 .request();
-        return (Long) response.getData().get("message_id");
+        return (Integer) response.getData().get("message_id");
     }
 
     /**
      * 发送群消息
      * @return 消息 ID
      * */
-    public static Long sendGroupMessage(String message, long groupId) {
+    public static Integer sendGroupMessage(String message, long groupId) {
         return sendGroupMessage(MessageBuilder.json().text(message).build(), groupId);
     }
 
@@ -520,7 +520,7 @@ public class OpenAPIHandling {
      * 发送群消息
      * @return 消息 ID
      * */
-    public static Long sendGroupMessage(Message message, long groupId) {
+    public static Integer sendGroupMessage(Message message, long groupId) {
         return sendGroupMessage(message, groupId, Integer.MAX_VALUE);
     }
 
@@ -528,14 +528,14 @@ public class OpenAPIHandling {
      * 发送群消息
      * @return 消息 ID
      * */
-    public static Long sendGroupMessage(Message message, long groupId, int limit) {
+    public static Integer sendGroupMessage(Message message, long groupId, int limit) {
         Message limited;
 //        if ((limited = buildLimitMessage(message, limit)) != null) return sendGroupForwardMessage(limited, groupId);
         Response<Map<String, Object>> response = new GroupMsgSendHandler()
                 .setGroupId(groupId)
                 .setMessage(message)
                 .request();
-        return (Long) response.getData().get("message_id");
+        return (Integer) response.getData().get("message_id");
     }
 
     /**
@@ -543,12 +543,12 @@ public class OpenAPIHandling {
      * @param messageNode 构造的节点消息
      * */
     @Deprecated
-    public static Long sendPrivateForwardMessage(Message messageNode, long userId) {
+    public static Integer sendPrivateForwardMessage(Message messageNode, long userId) {
         Response<Map<String, Object>> response = new PrivateForwardSendHandler()
                 .setUserId(userId)
                 .setMessages(messageNode)
                 .request();
-        return (Long) response.getData().get("message_id");
+        return (Integer) response.getData().get("message_id");
     }
 
     /**
@@ -556,12 +556,12 @@ public class OpenAPIHandling {
      * @param messageNode 构造的节点消息
      * */
     @Deprecated
-    public static Long sendGroupForwardMessage(Message messageNode, long groupId) {
+    public static Integer sendGroupForwardMessage(Message messageNode, long groupId) {
         Response<Map<String, Object>> response = new GroupForwardSendHandler()
                 .setGroupId(groupId)
                 .setMessages(messageNode)
                 .request();
-        return (Long) response.getData().get("message_id");
+        return (Integer) response.getData().get("message_id");
     }
 
     // record

@@ -13,21 +13,18 @@ import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 
 import java.util.Optional;
 import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 import java.util.function.Supplier;
 
 public class OneBotAPIInvoker {
 
-    private static final Cache<String, CompletableFuture<Response<?>>> localCache = CacheBuilder.newBuilder()
+    private static final Cache<String, CompletableFuture> localCache = CacheBuilder.newBuilder()
             .initialCapacity(64)
             .maximumSize(1024)
             .expireAfterWrite(30, TimeUnit.SECONDS)
             .build();
 
-    @SuppressWarnings("unchecked")
-    public static <T> Supplier<Response<T>> postHandler(AbstractWSAPIHandler<T> handler) {
+    public static <T> CompletableFuture<Response<T>> postHandlerFuture(AbstractWSAPIHandler<T> handler) {
         Assert.notNull(OneBotConnection.channel, "WebSocket 连接未开启");
 
         Gson gson = EventResolver.GSON;
@@ -38,17 +35,10 @@ public class OneBotAPIInvoker {
         sendObj.add("params", params);
         sendObj.add("echo", new JsonPrimitive(uuid));
 
-        CompletableFuture<Response<?>> future = new CompletableFuture<>();
+        CompletableFuture<Response<T>> future = new CompletableFuture<>();
         localCache.put(uuid, future);
         OneBotConnection.channel.writeAndFlush(new TextWebSocketFrame(gson.toJson(sendObj)));
-
-        return () -> {
-            try {
-                return (Response<T>) future.get();
-            } catch (InterruptedException | ExecutionException e) {
-                throw new RuntimeException(e);
-            }
-        };
+        return future;
     }
 
     // OneBot API callback
