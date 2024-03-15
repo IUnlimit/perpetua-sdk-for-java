@@ -15,7 +15,7 @@ public class MessageEntity {
     private Message message;
 
     @SerializedName("message_id")
-    private Long messageId;
+    private Integer messageId;
 
     @SerializedName("message_id_v2")
     private String messageIdV2;

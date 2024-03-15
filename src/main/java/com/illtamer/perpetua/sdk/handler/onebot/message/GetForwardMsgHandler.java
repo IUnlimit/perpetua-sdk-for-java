@@ -14,13 +14,13 @@ import java.util.Map;
 public class GetForwardMsgHandler extends AbstractWSAPIHandler<Map<String, Object>> {
 
     @SerializedName("message_id")
-    private Long messageId;
+    private Integer messageId;
 
     public GetForwardMsgHandler() {
         super("get_forward_msg");
     }
 
-    public GetForwardMsgHandler setMessageId(Long messageId) {
+    public GetForwardMsgHandler setMessageId(Integer messageId) {
         this.messageId = messageId;
         return this;
     }

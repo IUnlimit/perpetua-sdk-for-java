@@ -30,7 +30,7 @@ public class MessageEvent extends Event implements Cancellable {
      * 消息 ID
      * */
     @SerializedName("message_id")
-    private Long messageId;
+    private Integer messageId;
 
     /**
      * 消息类型
@@ -85,7 +85,7 @@ public class MessageEvent extends Event implements Cancellable {
      * 向该消息发送者发送消息
      * @return 消息 ID
      * */
-    public Long sendMessage(String message) {
+    public Integer sendMessage(String message) {
         return OpenAPIHandling.sendMessage(message, userId);
     }
 
@@ -93,7 +93,7 @@ public class MessageEvent extends Event implements Cancellable {
      * 向该消息发送者发送消息
      * @return 消息 ID
      * */
-    public Long sendMessage(Message message) {
+    public Integer sendMessage(Message message) {
         return OpenAPIHandling.sendMessage(message, userId);
     }
 

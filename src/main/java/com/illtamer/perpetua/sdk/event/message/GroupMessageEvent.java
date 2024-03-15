@@ -108,7 +108,7 @@ public class GroupMessageEvent extends MessageEvent {
      * 向该消息发送者发送消息
      * @return 消息 ID
      * */
-    public Long sendGroupMessage(String message) {
+    public Integer sendGroupMessage(String message) {
         return OpenAPIHandling.sendGroupMessage(message, groupId);
     }
 
@@ -116,7 +116,7 @@ public class GroupMessageEvent extends MessageEvent {
      * 向该消息发送者发送消息
      * @return 消息 ID
      * */
-    public Long sendGroupMessage(Message message) {
+    public Integer sendGroupMessage(Message message) {
         return OpenAPIHandling.sendGroupMessage(message, groupId);
     }
 

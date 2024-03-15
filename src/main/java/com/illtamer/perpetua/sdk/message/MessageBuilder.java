@@ -282,7 +282,7 @@ public class MessageBuilder {
      * 回复
      * @param id 回复时所引用的消息id
      * */
-    public MessageBuilder reply(Long id) {
+    public MessageBuilder reply(Integer id) {
         return reply(id, null, null, null, null);
     }
 
@@ -293,7 +293,7 @@ public class MessageBuilder {
      * @param time 自定义回复时的时间, 格式为Unix时间
      * @param seq 起始消息序号, 可通过 get_msg 获得
      * @apiNote 如果 id 和 text 同时存在, 将采用自定义reply并替换原有信息 如果 id 获取失败, 将回退到自定义reply
-     * @deprecated 经测试，在不指定 id 的前提下无法正确发送自定义回复，请转用 {@link #reply(Long, String, Long, Long, Long)}}
+     * @deprecated 经测试，在不指定 id 的前提下无法正确发送自定义回复，请转用 {@link #reply(Integer, String, Long, Long, Long)}}
      * */
     @Deprecated
     public MessageBuilder customReply(String text, Long qq, Long time, Long seq) {
@@ -310,7 +310,7 @@ public class MessageBuilder {
      * @apiNote 如果 id 和 text 同时存在, 将采用自定义reply并替换原有信息 如果 id 获取失败, 将回退到自定义reply
      * */
     @Deprecated
-    public MessageBuilder reply(@Nullable Long id, @Nullable String text, @Nullable Long qq, @Nullable Long time, @Nullable Long seq) {
+    public MessageBuilder reply(@Nullable Integer id, @Nullable String text, @Nullable Long qq, @Nullable Long time, @Nullable Long seq) {
         message.add("reply", Maps.of(
                 "id", nullableToString(id),
                 "text", text,

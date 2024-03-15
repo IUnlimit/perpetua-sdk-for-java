@@ -18,13 +18,13 @@ import java.util.Map;
 public class GetMsgHandler extends AbstractWSAPIHandler<Map<String, Object>> {
 
     @SerializedName("message_id")
-    private Long messageId;
+    private int messageId;
 
     public GetMsgHandler() {
         super("get_msg");
     }
 
-    public GetMsgHandler setMessageId(Long messageId) {
+    public GetMsgHandler setMessageId(int messageId) {
         this.messageId = messageId;
         return this;
     }

@@ -11,13 +11,13 @@ import lombok.Getter;
 public class DeleteMsgHandler extends AbstractWSAPIHandler<Object> {
 
     @SerializedName("message_id")
-    private Long messageId;
+    private Integer messageId;
 
     public DeleteMsgHandler() {
         super("delete_msg");
     }
 
-    public DeleteMsgHandler setMessageId(Long messageId) {
+    public DeleteMsgHandler setMessageId(Integer messageId) {
         this.messageId = messageId;
         return this;
     }
