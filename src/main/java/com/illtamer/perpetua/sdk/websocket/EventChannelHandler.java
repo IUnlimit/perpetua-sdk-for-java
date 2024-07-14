@@ -11,7 +11,6 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.FullHttpResponse;
 import io.netty.handler.codec.http.websocketx.*;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.extern.java.Log;
 
 import java.util.concurrent.ExecutorService;
@@ -27,6 +26,8 @@ class EventChannelHandler extends SimpleChannelInboundHandler<Object> {
     @Getter
     private ChannelPromise handshakeFuture;
 
+    private StringBuilder textBuffer = null;
+
     public EventChannelHandler(ExecutorService eventThreadPool, WebSocketClientHandshaker handshaker, Consumer<Event> eventConsumer) {
         this.waitCallbackEventThreadPool = eventThreadPool;
         this.handshaker = handshaker;
@@ -39,18 +40,18 @@ class EventChannelHandler extends SimpleChannelInboundHandler<Object> {
      *  - common event (thread2)
      * */
     protected void handleMessage(String message) {
-        JsonObject json = new Gson().fromJson(message, JsonObject.class);
-        if (json.get("echo") != null) {
-            OneBotConnection.callbackThreadPool.execute(() ->
-                    OneBotAPIInvoker.callback(json));
-            return;
-        }
-
-        Event event = EventResolver.convertEvent(json);
         try {
+            JsonObject json = new Gson().fromJson(message, JsonObject.class);
+            if (json.get("echo") != null) {
+                OneBotConnection.callbackThreadPool.execute(() ->
+                        OneBotAPIInvoker.callback(json));
+                return;
+            }
+            Event event = EventResolver.convertEvent(json);
+
             waitCallbackEventThreadPool.execute(() -> eventConsumer.accept(event));
         } catch (Exception e) {
-            log.log(Level.SEVERE, "调用事件出错", e);
+            log.log(Level.SEVERE, "处理事件出错", e);
         }
     }
 
@@ -81,12 +82,23 @@ class EventChannelHandler extends SimpleChannelInboundHandler<Object> {
         }
 
         if (msg instanceof TextWebSocketFrame) {
-            handleMessage(((TextWebSocketFrame) msg).text());
+            textBuffer = new StringBuilder();
+            textBuffer.append(((TextWebSocketFrame) msg).text());
+        } else if (msg instanceof ContinuationWebSocketFrame) {
+            if (textBuffer != null) {
+                textBuffer.append(((ContinuationWebSocketFrame) msg).text());
+            } else {
+                log.warning("Continuation frame received without initial frame");
+            }
         } else if (msg instanceof PongWebSocketFrame) {
-            System.out.println("WebSocket Client received pong");
+            log.info("WebSocket Client received pong");
         } else if (msg instanceof CloseWebSocketFrame){
             log.info("WebSocket Client received closing");
             ch.close();
+        }
+        if (((WebSocketFrame) msg).isFinalFragment()) {
+            handleMessage(textBuffer.toString());
+            textBuffer = null;
         }
     }
 
