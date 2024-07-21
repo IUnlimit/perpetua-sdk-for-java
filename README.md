@@ -9,6 +9,14 @@ Perpetua 的通信 sdk，java 实现
 ### Maven
 
 ```xml
+<repository>
+  <id>iunlimit-releases</id>
+  <name>IllTamer's Repository</name>
+  <url>https://maven.illtamer.com/releases</url>
+</repository>
+```
+
+```xml
 <dependency>
   <groupId>com.illtamer.perpetua.sdk</groupId>
   <artifactId>perpetua-sdk</artifactId>
