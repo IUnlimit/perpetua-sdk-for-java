@@ -2,6 +2,7 @@ package com.illtamer.perpetua.sdk;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 import com.illtamer.perpetua.sdk.entity.transfer.entity.Client;
 import com.illtamer.perpetua.sdk.event.Event;
 import com.illtamer.perpetua.sdk.event.EventResolver;
@@ -18,7 +19,12 @@ import java.util.Map;
 public class TestMain {
 
     public static void main(String[] args) throws Exception {
-        testConnect();
+        testGsonPraseInt();
+    }
+
+    private static void testGsonPraseInt() throws Exception {
+        Response response = EventResolver.GSON.fromJson("{\"status\":\"ok\",\"retcode\":0,\"data\":{\"port\":36831}}", Response.class);
+        System.out.println(response);
     }
 
     private static void testEnhanceAPI() {

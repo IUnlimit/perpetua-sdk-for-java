@@ -4,8 +4,8 @@ import com.illtamer.perpetua.sdk.Response;
 import com.illtamer.perpetua.sdk.exception.APIInvokeException;
 import com.illtamer.perpetua.sdk.websocket.OneBotAPIInvoker;
 
-import java.util.concurrent.*;
-import java.util.function.Supplier;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 public abstract class AbstractWSAPIHandler<T> implements APIHandler<T> {
 

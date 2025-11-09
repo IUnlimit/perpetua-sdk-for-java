@@ -89,7 +89,7 @@ public class OneBotConnection {
         OneBotConnection.enhanceWebAPIUrl = String.format("http://%s:%d", ip, apiPort);
         OneBotConnection.authorization = authorization;
 
-        Integer wsPort = (Integer) new GetWSPortHandler().request().getData().get("port");
+        int wsPort = (Integer) new GetWSPortHandler().request().getData().get("port");
         String wsUri = String.format("ws://%s:%d", ip, wsPort);
 
         try {

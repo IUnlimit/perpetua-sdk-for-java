@@ -1,7 +1,6 @@
 package com.illtamer.perpetua.sdk.event.distributed;
 
 import com.illtamer.perpetua.sdk.annotation.Coordinates;
-import com.illtamer.perpetua.sdk.entity.transfer.entity.Client;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

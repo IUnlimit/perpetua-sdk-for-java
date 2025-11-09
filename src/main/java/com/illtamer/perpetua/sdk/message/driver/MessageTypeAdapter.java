@@ -1,6 +1,9 @@
-package com.illtamer.perpetua.sdk.message;
+package com.illtamer.perpetua.sdk.message.driver;
 
 import com.google.gson.*;
+import com.illtamer.perpetua.sdk.message.CQMessage;
+import com.illtamer.perpetua.sdk.message.JsonMessage;
+import com.illtamer.perpetua.sdk.message.Message;
 import com.illtamer.perpetua.sdk.util.Assert;
 import lombok.extern.java.Log;
 

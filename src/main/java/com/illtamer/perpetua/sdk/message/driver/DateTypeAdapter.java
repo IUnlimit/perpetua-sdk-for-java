@@ -1,4 +1,4 @@
-package com.illtamer.perpetua.sdk.message;
+package com.illtamer.perpetua.sdk.message.driver;
 
 import com.google.gson.*;
 

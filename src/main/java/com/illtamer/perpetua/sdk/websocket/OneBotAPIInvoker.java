@@ -13,8 +13,8 @@ import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 
 import java.util.Optional;
 import java.util.UUID;
-import java.util.concurrent.*;
-import java.util.function.Supplier;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 
 public class OneBotAPIInvoker {
 
