@@ -6,12 +6,12 @@ import com.illtamer.perpetua.sdk.Response;
 import java.lang.reflect.Type;
 import java.util.Map;
 
-public class ResponseMapDeserializer implements JsonDeserializer<Response<Map<String, Object>>> {
+public class ResponseMapDeserializer implements JsonDeserializer<Response<Object>> {
 
     private final MapTypeAdapter mapTypeAdapter = new MapTypeAdapter();
 
     @Override
-    public Response<Map<String, Object>> deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+    public Response<Object> deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         JsonObject jsonObject = json.getAsJsonObject();
 
         String status = getString(jsonObject, "status");
@@ -21,7 +21,7 @@ public class ResponseMapDeserializer implements JsonDeserializer<Response<Map<St
         String echo = getString(jsonObject, "echo");
 
         // 使用自定义逻辑解析 data 字段
-        Map<String, Object> data = null;
+        Object data = null;
         if (jsonObject.has("data") && !jsonObject.get("data").isJsonNull()) {
             JsonElement dataElement = jsonObject.get("data");
             data = mapTypeAdapter.deserialize(dataElement, Map.class, context);

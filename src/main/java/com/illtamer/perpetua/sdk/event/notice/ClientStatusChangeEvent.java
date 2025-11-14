@@ -1,5 +1,6 @@
 package com.illtamer.perpetua.sdk.event.notice;
 
+import com.google.gson.annotations.SerializedName;
 import com.illtamer.perpetua.sdk.annotation.Coordinates;
 import com.illtamer.perpetua.sdk.entity.transfer.entity.Client;
 import lombok.Getter;
@@ -28,5 +29,11 @@ public class ClientStatusChangeEvent extends NoticeEvent {
      * 当前是否在线
      * */
     private Boolean online;
+
+    /**
+     * 触发事件的客户端是否是自身
+     * */
+    @SerializedName("self_client")
+    private Boolean selfClient;
 
 }

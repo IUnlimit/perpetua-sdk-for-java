@@ -11,11 +11,11 @@ import java.util.Map;
 /**
  * 解决反序列化 number 默认转型成 double 的问题
  * */
-public class MapTypeAdapter implements JsonDeserializer<Map<String, Object>> {
+public class MapTypeAdapter implements JsonDeserializer<Object> {
 
     @Override
-    public Map<String, Object> deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-        return parseJsonObject(json.getAsJsonObject());
+    public Object deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+        return parseJsonValue(json);
     }
 
     private Map<String, Object> parseJsonObject(JsonObject jsonObject) {

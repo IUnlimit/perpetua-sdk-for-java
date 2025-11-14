@@ -1,5 +1,6 @@
 package com.illtamer.perpetua.sdk.handler;
 
+import com.google.gson.reflect.TypeToken;
 import com.illtamer.perpetua.sdk.Response;
 import com.illtamer.perpetua.sdk.event.EventResolver;
 import com.illtamer.perpetua.sdk.exception.APIInvokeException;
@@ -28,7 +29,7 @@ public abstract class AbstractWebAPIHandler<T> implements APIHandler<T> {
     @Override
     public Response<T> request() {
         String json = HttpRequestUtil.request(OneBotConnection.getEnhanceWebAPIUrl() + endpoint, this, HEADERS);
-        Response<T> response = EventResolver.GSON.fromJson(json, Response.class);
+        Response<T> response = EventResolver.GSON.fromJson(json, new TypeToken<Response<T>>() {});
         if (!"ok".equals(response.getStatus()) && !"async".equals(response.getStatus()))
             throw new APIInvokeException(response);
         return response;
