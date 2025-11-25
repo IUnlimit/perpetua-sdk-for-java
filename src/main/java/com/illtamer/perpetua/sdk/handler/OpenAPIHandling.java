@@ -348,6 +348,26 @@ public class OpenAPIHandling {
     }
 
     /**
+     * 获取所有群成员信息
+     * @param groupId 群号
+     * */
+    public static List<GroupMember> getGroupMemberList(long groupId) {
+        return getGroupMemberList(groupId, true);
+    }
+
+    /**
+     * 获取所有群成员信息
+     * @param groupId 群号
+     * @param cache 是否使用缓存
+     * */
+    public static List<GroupMember> getGroupMemberList(long groupId, boolean cache) {
+        return GroupMemberListGetHandler.parse(new GroupMemberListGetHandler()
+                .setGroupId(groupId)
+                .setNoCache(!cache)
+                .request());
+    }
+
+    /**
      * 设置群名
      * @param groupId 群号
      * @param name 新群名

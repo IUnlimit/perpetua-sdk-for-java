@@ -17,8 +17,7 @@ import io.netty.handler.codec.http.DefaultHttpHeaders;
 import io.netty.handler.codec.http.HttpClientCodec;
 import io.netty.handler.codec.http.HttpHeaders;
 import io.netty.handler.codec.http.HttpObjectAggregator;
-import io.netty.handler.codec.http.websocketx.WebSocketClientHandshakerFactory;
-import io.netty.handler.codec.http.websocketx.WebSocketVersion;
+import io.netty.handler.codec.http.websocketx.*;
 import io.netty.handler.codec.http.websocketx.extensions.compression.WebSocketClientCompressionHandler;
 import io.netty.handler.stream.ChunkedWriteHandler;
 import lombok.Getter;
@@ -39,6 +38,9 @@ import java.util.function.Supplier;
  * */
 @Log
 public class OneBotConnection {
+
+    // 最大帧长度，有些实现如 napcat 不会分块返回消息，需要调整最大长度
+    public static final int MAX_FRAME_SIZE = 1024 * 1024 * 8;
 
     // 事件回调线程池，尽量多个，IO 密集型
     @Setter
@@ -107,7 +109,7 @@ public class OneBotConnection {
         }
         EventChannelHandler eventHandler = new EventChannelHandler(
                 eventThreadPool,
-                WebSocketClientHandshakerFactory.newHandshaker(uri, WebSocketVersion.V13, null, true, httpHeaders),
+                WebSocketClientHandshakerFactory.newHandshaker(uri, WebSocketVersion.V13, null, true, httpHeaders, MAX_FRAME_SIZE),
                 eventConsumer);
         EventLoopGroup group = new NioEventLoopGroup();
         try {
