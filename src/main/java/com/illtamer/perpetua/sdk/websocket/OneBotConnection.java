@@ -72,8 +72,11 @@ public class OneBotConnection {
     /**
      * WebSocket 连接状态
      * */
-    @Getter
-    private static boolean running = false;
+    private static volatile boolean running = false;
+
+    public static boolean isRunning() {
+        return running;
+    }
 
     protected static Channel channel;
 
