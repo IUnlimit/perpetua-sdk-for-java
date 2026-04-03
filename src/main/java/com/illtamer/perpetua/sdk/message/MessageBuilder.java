@@ -8,6 +8,7 @@ import com.illtamer.perpetua.sdk.entity.enumerate.MusicType;
 import com.illtamer.perpetua.sdk.entity.enumerate.PokeType;
 import com.illtamer.perpetua.sdk.exception.ExclusiveMessageException;
 import com.illtamer.perpetua.sdk.handler.onebot.message.GroupForwardSendHandler;
+import com.illtamer.perpetua.sdk.util.AdapterUtil;
 import com.illtamer.perpetua.sdk.util.Maps;
 import org.jetbrains.annotations.Nullable;
 
@@ -471,6 +472,14 @@ public class MessageBuilder {
     }
 
     MessageBuilder property(String type, Map<String, @Nullable Object> args) {
+        @Nullable String textValue;
+        if (args.containsKey("text") && (textValue = (String) args.get("text")) != null) {
+            if (message instanceof JsonMessage) { // 反转义
+                args.put("text", AdapterUtil.parse(textValue));
+            } else if (message instanceof CQMessage) { // 转义
+                args.put("text", AdapterUtil.format(textValue));
+            }
+        }
         message.add(type, args);
         return this;
     }
