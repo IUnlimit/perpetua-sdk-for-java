@@ -88,10 +88,13 @@ public class JsonMessage extends Message {
         notnull.forEach(entry -> {
                     Object value = entry.getValue();
                     JsonElement element;
-                    if (value instanceof Message)
+                    if (value instanceof Message) {
                         element = ((JsonMessage) value).array;
-                    else
+                    } else if (value instanceof JsonPrimitive) {
+                        element = (JsonElement) value;
+                    } else {
                         element = new JsonPrimitive(value.toString());
+                    }
                     dataJson.add(entry.getKey(), element);
                 });
         JsonObject node = new JsonObject();
